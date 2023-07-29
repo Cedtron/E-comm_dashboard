@@ -219,6 +219,10 @@ module.exports = {
           lg: '1024px',
           xl: '1280px',
       },
+      fontFamily: {
+        display: ['Inter', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+      },
       colors: colors,
       spacing: {
           px: '1px',

@@ -18,7 +18,7 @@ export default function EditProductPage() {
   }, [id]);
   return (
     <Layout>
-      <h1>Edit product</h1>
+      <div className="bg-grey-darker p-4 text-white">   <h1 className="text-lg text-center">Edit product</h1></div>
       {productInfo && (
         <ProductForm {...productInfo} />
       )}

@@ -11,7 +11,8 @@ export default function OrdersPage() {
   }, []);
   return (
     <Layout>
-      <h1>Orders</h1>
+      <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
+      <div className="bg-grey-darker p-4 text-white">   <h1 className="text-lg text-center">Orders</h1></div>
       <table className="basic">
         <thead>
           <tr>
@@ -46,6 +47,7 @@ export default function OrdersPage() {
         ))}
         </tbody>
       </table>
+      </div>
     </Layout>
   );
 }

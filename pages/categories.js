@@ -95,14 +95,15 @@ function Categories({swal}) {
   }
   return (
     <Layout>
-       <div className="text-black p-4 -mt-2.5 -mb-2.5 -ml-2.5 -mr-2.5">
-      <h1>Categories</h1>
+       <div className=" bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
+   <div className="bg-grey-darker p-4 text-white">   <h1 className="text-lg text-center">Categories</h1></div>
+    <div className="mx-auto p-4">
       <label>
         {editedCategory
           ? `Edit category ${editedCategory.name}`
           : 'Create new category'}
       </label>
-      <form onSubmit={saveCategory}>
+      <form onSubmit={saveCategory} className="w-full">
         <div className="flex gap-1">
           <input
             type="text"
@@ -119,23 +120,23 @@ function Categories({swal}) {
             ))}
           </select>
         </div>
-        <div className="mb-2">
+        <div className="mb-2 p-2">
           <label className="block">Properties</label>
           <button
             onClick={addProperty}
             type="button"
-            className="bg-blue-500 rounded-md p-2 text-white w-1/5">
+            className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
             Add new property
           </button>
           {properties.length > 0 && properties.map((property,index) => (
             <div key={property.name} className="flex gap-1 mb-2">
               <input type="text"
                      value={property.name}
-                     className="mb-0"
+                     className="bg-grey-200 appearance-none border-1 border-grey-200 rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-purple-light"
                      onChange={ev => handlePropertyNameChange(index,property,ev.target.value)}
                      placeholder="property name (example: color)"/>
               <input type="text"
-                     className="mb-0"
+                     className="bg-grey-200 appearance-none border-1 border-grey-200 rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-purple-light"
                      onChange={ev =>
                        handlePropertyValuesChange(
                          index,
@@ -165,13 +166,13 @@ function Categories({swal}) {
               className="btn-default">Cancel</button>
           )}
           <button type="submit"
-                   className="bg-blue-500 rounded-md p-2 text-white w-1/5">
+                   className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
             Save
           </button>
         </div>
       </form>
       {!editedCategory && (
-        <table className="mt-2">
+        <table className="mt-2 w-5/6">
           <thead className="bg-blue-500 text-white">
           <tr>
             <td className="p-2">Category name</td>
@@ -201,6 +202,8 @@ function Categories({swal}) {
         </table>
       )}
       </div>
+</div>
+ 
     </Layout>
   );
 }

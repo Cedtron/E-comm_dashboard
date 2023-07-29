@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 export default function NewProduct() {
   return (
     <Layout>
-      <h1>New Product</h1>
+      <div className="bg-grey-darker p-4 text-white">   <h1 className="text-lg text-center">New Product</h1></div>
       <ProductForm />
     </Layout>
   );

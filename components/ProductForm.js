@@ -88,7 +88,7 @@ export default function ProductForm({
   }
 
   return (
-    <div className="p-4  bg-gray-300 shadow-sm rounded-md">
+    <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
 
     <div className="p-4 text-black  -mt-2.5 -mb-2.5 -ml-2.5 -mr-2.5">
       <form onSubmit={saveProduct}>
