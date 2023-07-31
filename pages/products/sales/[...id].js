@@ -12,11 +12,11 @@ export default function SaleProduct() {
   const { data: session } = useSession();
   const [productInfo,setProductInfo] = useState();
   const [product,setProduct] = useState();
-  const [price,setPrice] = useState();
+  const [px,setPx] = useState();
   const [totalPrice,setTotalPrice] = useState();
   const [productId,setProductId] = useState();
   const [saler,setSaler] = useState();
-  const [stock,setStock] = useState();
+  const [stockx,setStockx] = useState();
   const [stocks,setStocks] = useState();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [swalProps, setSwalProps]= useState({});
@@ -27,9 +27,9 @@ export default function SaleProduct() {
     }
     axios.get('/api/products?id='+id).then(response => {
       setProductInfo(response.data),
-      setPrice(response.data.price),
+      setPx(response.data.price),
       setProduct(response.data.title),
-      setStock(response.data.stock)
+      setStockx(response.data.stock)
     });
 
 
@@ -39,13 +39,13 @@ export default function SaleProduct() {
     
  const btn= document.getElementById('dis')
 
-if( parseInt(stocks)>= parseInt(stock)){
+if( parseInt(stocks)>= parseInt(stockx)){
       enqueueSnackbar("This is too much", { variant: 'error' });
     }
     
     else{
       enqueueSnackbar("Good to go", { variant: 'success' });
-      const totalPrice=price*stocks 
+      const totalPrice=px*stocks 
       setTotalPrice(totalPrice)
       
       btn.classList.remove("invisible")
@@ -60,6 +60,8 @@ async function checkout(){
   setSaler(session?.user?.name)
     setProductId(id)
     const esawa= new Date();
+    const stock=stocks
+    const price=totalPrice
     const data = {productId,product,stock, price,saler,esawa };
     const inputf=document.getElementById("input");
   await axios
@@ -99,10 +101,10 @@ text:'Done',
       {product}
       </h1>
       <div className="text-lg font-semibold text-slate-500">
-      {price}
+      {px}
       </div>
       <div className="w-full flex-none text-sm font-medium text-slate-700 mt-2">
-        In stock :{stock}
+        In stock :{stockx}
       </div>
     </div>
    
@@ -111,7 +113,7 @@ Total price :{totalPrice}
     <input id="input"
         className="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
           type="text"
-          placeholder={stock}
+          placeholder={stockx}
           
           onChange={ev => setStocks(ev.target.value)}/>
     <div className="flex space-x-4 mb-6 text-sm font-medium">

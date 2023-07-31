@@ -66,15 +66,17 @@ export default function Layout({children}) {
         <main className="bg-gray-100 flex-1 p-3 overflow-hidden">
         <div className="flex flex-col">
         {children}
+
+
         </div>
-          
+         
         </main> 
         
         </div>
 
     
 </div> 
-<Footer />
+<Footer /> 
     </div>
    
   )
