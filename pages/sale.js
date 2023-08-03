@@ -1,20 +1,39 @@
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { CartContext } from "@/components/context";
+import { FaCartPlus } from "react-icons/fa";
 
 export default function Products() {
-  const [products,setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     axios.get('/api/products').then(response => {
       setProducts(response.data);
     });
-  }, []);
+  }, []); 
+
+  const { cartProducts, addProduct } = useContext(CartContext);
+  const [addedProductId, setAddedProductId] = useState(null);
+ const [isAdding, setIsAdding] = useState(false);
+
+ function addToCart(productId) {
+  if (!cartProducts.includes(productId)) {
+    addProduct(productId);
+    setAddedProductId(productId); // Set the product ID that is being added to the cart
+    setTimeout(() => {
+      setAddedProductId(null);
+    }, 2000); // Set a timeout of 2000 milliseconds (2 seconds)
+  }
+}
+
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
         <div className="p-4">
-   <table className="table-auto mt-2">
+          <Link className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4" href={'/check'}>View Items</Link>
+          <h2>Number of products in cart: {cartProducts.length}</h2>
+          <table className="table-auto mt-2">
         <thead className="bg-blue-500 text-white">
           <tr>
             <td className="p-2">Product name</td>
@@ -35,14 +54,17 @@ export default function Products() {
               <td className="p-2">{product.price}</td>
             
               <td className="p-2">
-                <Link className="btn-default" href={'/products/sales/'+product._id}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                  </svg>
-                  Sale
-                </Link>
-              
-              </td>
+                   <button
+                      onClick={() => addToCart(product._id)}
+                      disabled={addedProductId === product._id}
+                      className={`w-full cursor-pointer bg-black hover:bg-gray-900 text-white py-2 px-4 rounded inline-flex items-center ${
+                        cartProducts.includes(product._id) ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      <FaCartPlus className="w-4 h-4 mr-2" />   {cartProducts.includes(product._id) ? "Added to cart" : "Add to cart"}
+                    </button>
+                    
+                  </td>
             </tr>
           ))}
         </tbody>

@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import { HiMenu } from 'react-icons/hi';
 import Footer from "@/components/footer";
 import {useState} from "react";
+import Login from './login';
 
 export default function Layout({children}) {
 
@@ -19,10 +20,8 @@ export default function Layout({children}) {
     }
     if (!session) {
       return (
-        <div className="bg-white w-screen h-screen flex items-center">
-          <div className="text-center w-full">
-            <button onClick={() => signIn('google')} className="bg-black p-2 px-4 rounded-lg text-white">Login with Google</button>
-          </div>
+        <div >
+         <Login />
         </div>
       );
     }
@@ -31,7 +30,7 @@ export default function Layout({children}) {
 
 <div className="mx-auto bg-gray-400">
           
-        <header className="bg-nav">
+        <header className="bg-nav  object-top">
             <div className="flex justify-between">
                 <div className="p-1 mx-3 inline-flex items-center">
                 <button onClick={sidebarToggle}><HiMenu/></button>

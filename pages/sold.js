@@ -9,7 +9,7 @@ export default function Products() {
     axios.get('/api/sales').then(response => {
       setProducts(response.data);
     });
-  }, []);
+  }, []);  
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">

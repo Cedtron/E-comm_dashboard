@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
+import SweetAlert2 from "react-sweetalert2";
+import { useSnackbar } from 'notistack';
 import Spinner from "@/components/Spinner";
 import {ReactSortable} from "react-sortablejs";
 
@@ -11,6 +13,7 @@ export default function ProductForm({
   price:existingPrice,
   color: existingColor,
   stock: existingStock,
+ brand : existingBrand,
   images:existingImages,
   category:assignedCategory,
   properties:assignedProperties,
@@ -20,6 +23,7 @@ export default function ProductForm({
   const [category,setCategory] = useState(assignedCategory || '');
   const [productProperties,setProductProperties] = useState(assignedProperties || {});
   const [price,setPrice] = useState(existingPrice || '');
+  const [brand,setBrand] = useState(existingBrand || '');
   const [stock,setStock] = useState(existingStock || '');
   const [color,setColor] = useState(existingColor || '');
   const [images,setImages] = useState(existingImages || []);
@@ -27,6 +31,8 @@ export default function ProductForm({
   const [isUploading,setIsUploading] = useState(false);
   const [categories,setCategories] = useState([]);
   const router = useRouter();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [swalProps, setSwalProps]= useState({});
   useEffect(() => {
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
@@ -35,15 +41,33 @@ export default function ProductForm({
   async function saveProduct(ev) {
     ev.preventDefault();
     const data = {
-      title,description,price,stock,color,images,category,
+      title,description,brand,price,stock,color,images,category,
       properties:productProperties
     };
     if (_id) {
       //update
-      await axios.put('/api/products', {...data,_id});
-    } else {
+      await axios.put('/api/products', {...data,_id})
+      .then((data) => {
+        setSwalProps({
+   show:true,
+   title: 'Product successfully Update',
+text:'Done',
+ })
+}) .catch((error) => {
+ enqueueSnackbar(error, { variant: 'error' });
+});
+    } else { 
       //create
-      await axios.post('/api/products', data);
+      await axios.post('/api/products', data)
+      .then((data) => {
+               setSwalProps({
+          show:true,
+          title: 'Product successfully Added',
+    text:'Done',
+        })
+      }) .catch((error) => {
+        enqueueSnackbar(error, { variant: 'error' });
+      });
     }
     setGoToProducts(true);
   }
@@ -105,7 +129,7 @@ export default function ProductForm({
         <div className="space-x-2 >*">
         <select value={category} className=" w-1/2 h-10 p-2 rounded-md"
                 onChange={ev => setCategory(ev.target.value)}>
-          <option value="">Uncategorized</option>
+          <option value="">Choose Categories</option>
           {categories.length > 0 && categories.map(c => (
             <option key={c._id} value={c._id}>{c.name}</option>
           ))}
@@ -128,6 +152,16 @@ export default function ProductForm({
         ))}
         </div>
        
+        <label>Brand</label>
+        <div className="space-x-2 >*">
+        <input
+        className=" w-1/2 h-8 p-2 rounded-md"
+          type="text"
+          placeholder="Brand name"
+          value={brand}
+          onChange={ev => setBrand(ev.target.value)}/>
+          </div>
+
         <label>Description</label>
         <div className="space-x-2 >*"> <textarea
         className=" w-1/2 h-14 p-2 rounded-md"
@@ -201,6 +235,7 @@ export default function ProductForm({
         </button>
       </form>
       </div>
+      <SweetAlert2 {...swalProps}/>
       </div>
   );
 }
