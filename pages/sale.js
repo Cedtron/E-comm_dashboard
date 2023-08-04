@@ -33,6 +33,12 @@ export default function Products() {
         <div className="p-4">
           <Link className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4" href={'/check'}>View Items</Link>
           <h2>Number of products in cart: {cartProducts.length}</h2>
+
+          <div className="flex flex-col">
+          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div className="overflow-hidden">
+
           <table className="table-auto mt-2">
         <thead className="bg-blue-500 text-white">
           <tr>
@@ -46,14 +52,17 @@ export default function Products() {
         </thead>
         <tbody>
           {products.map(product => (
-            <tr key={product._id}>
-              <td className="p-2">{product.title}</td>
-              <td className="p-2">{product.category}</td>
-              <td className="p-2">{product.stock}</td>
-              <td className="p-2">{product.color}</td>
-              <td className="p-2">{product.price}</td>
+            <tr key={product._id}
+            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                  
+            >
+              <td className="whitespace-nowrap px-6 py-4">{product.title}</td>
+              <td className="whitespace-nowrap px-6 py-4">{product.category}</td>
+              <td className="whitespace-nowrap px-6 py-4">{product.stock}</td>
+              <td className="whitespace-nowrap px-6 py-4">{product.color}</td>
+              <td className="whitespace-nowrap px-6 py-4">{product.price}</td>
             
-              <td className="p-2">
+              <td className="whitespace-nowrap px-6 py-4">
                    <button
                       onClick={() => addToCart(product._id)}
                       disabled={addedProductId === product._id}
@@ -69,6 +78,13 @@ export default function Products() {
           ))}
         </tbody>
       </table>
+
+      </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
       </div>
     </Layout>

@@ -208,8 +208,8 @@ text:'Done',
             className="flex flex-wrap gap-1"
             setList={updateImagesOrder}>
             {!!images?.length && images.map(link => (
-              <div key={link} className="h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200">
-                <img src={link} alt="" className="rounded-lg"/>
+              <div key={link} className="h-24 bg-white p-2 shadow-sm rounded-sm border border-gray-200">
+                <img src={link} alt="" className="w-1/4 rounded-lg"/>
               </div>
             ))}
           </ReactSortable>
