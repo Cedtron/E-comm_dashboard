@@ -107,7 +107,7 @@ text:'Done',
         In stock :{stockx}
       </div>
     </div>
-   
+    
 {stocks}<br/>
 Total price :{totalPrice}
     <input id="input"

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '@/components/Layout';
-import Link from 'next/link';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
 import { useForm, Controller } from 'react-hook-form';
+import Cat from './cat';
 
 export default function Categories() {
   const [editedCategory, setEditedCategory] = useState(null);
@@ -26,6 +26,8 @@ export default function Categories() {
     });
   }
 
+ 
+
   async function saveCategory(data) {
     data.properties = data.properties.map((property) => ({
       name: property.name,
@@ -42,32 +44,7 @@ export default function Categories() {
     fetchCategories();
   }
 
-  function editCategory(category) {
-    setEditedCategory(category);
-    setValue('name', category.name);
-    setValue('parentCategory', category.parent?._id);
-    category.properties.forEach((property, index) => {
-      setValue(`properties[${index}].name`, property.name);
-      setValue(`properties[${index}].values`, property.values.join(','));
-    });
-  }
 
-  async function deleteCategory(category) {
-    const result = await swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete ${category.name}?`,
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Yes, Delete!',
-      confirmButtonColor: '#d55',
-      reverseButtons: true,
-    });
-
-    if (result.isConfirmed) {
-      await axios.delete(`/api/categories?_id=${category._id}`);
-      fetchCategories();
-    }
-  }
 
   function addProperty() {
     append({ name: '', values: '' });
@@ -77,41 +54,8 @@ export default function Categories() {
     remove(index);
   }
 
-  const columns = [
-    {
-      Header: 'Category name',
-      accessor: 'name',
-    },
-    {
-      Header: 'Parent category',
-      accessor: 'parent.name',
-    },
-    {
-      Header: 'Action',
-      accessor: 'actions',
-      Cell: ({ row }) => (
-        <div>
-          <button onClick={() => editCategory(row.original)}>Edit</button>
-          <button onClick={() => deleteCategory(row.original)}>Delete</button>
-        </div>
-      ),
-    },
-  ];
-  
 
-  const data = categories;
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data }, useFilters, useSortBy, usePagination);
-
-  
-
-  
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
@@ -219,49 +163,8 @@ export default function Categories() {
             </div>
           </form>
 
-
-
-          <div className="flex flex-col">
-  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div className="overflow-hidden">
-        <table {...getTableProps()} className="mt-2 w-5/6">
-          <thead className="bg-blue-500 text-white">
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render('Header')}
-                    {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr
-                  key={row.id}
-                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                  {...row.getRowProps()}
-                >
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()} className="whitespace-nowrap px-6 py-4">
-                      {cell.render('Cell')}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
+          {/* React Table */}
+       <Cat info={categories}/>
         </div>
       </div>
     </Layout>

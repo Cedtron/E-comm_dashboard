@@ -22,7 +22,7 @@ export default function OrdersPage() {
             <th>Products</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody> 
         {orders.length > 0 && orders.map(order => (
           <tr key={order._id}>
             <td>{(new Date(order.createdAt)).toLocaleString()}

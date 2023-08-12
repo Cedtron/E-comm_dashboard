@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Chart } from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-export default function Summer() {
+export default function Summer(props) {
   const data = {
     labels: ['Jan', 'Feb', 'March', 'April'],
     datasets: [
@@ -39,28 +39,32 @@ export default function Summer() {
               <table className="table text-grey-darkest">
                 <thead className="bg-grey-dark text-white text-normal">
                   <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Action</th>
+                  <th className="col">Items sold</th>
+            <th className="col">Name of the saler</th>
+            <th className="col">Total price</th>
+            <th className="col">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>
-                      <button className="bg-blue-500 hover:bg-blue-800 text-white font-light py-1 px-2 rounded-full">
-                        Twitter
-                      </button>
-                    </td>
-                    <td>4500</td>
-                    <td>
-                      <span className="text-green-500">
-                        <i className="fas fa-arrow-up"></i>5%
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
+        {sales.length > 0 && sales.map(sale => (
+          <tr key={sale._id}  className="border-b text-black transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+          >
+           
+            <td>
+              {sale.line_items.map(l => (
+                <>
+                  {l.price_data?.product_data.name} x
+                  {l.quantity}<br />
+                </>
+              ))}
+            </td> 
+           <td>{sale.saler}</td>
+           <td>{sale.price}</td>
+           <td>{(new Date(sale.createdAt)).toLocaleString()}
+            </td>
+          </tr>
+        ))}
+        </tbody>
               </table>
             </div>
           </div>

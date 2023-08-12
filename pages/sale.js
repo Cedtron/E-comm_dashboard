@@ -33,7 +33,7 @@ export default function Products() {
         <div className="p-4">
           <Link className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4" href={'/check'}>View Items</Link>
           <h2>Number of products in cart: {cartProducts.length}</h2>
-
+          <Link className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4" href={'/report'}>Report</Link>
           <div className="flex flex-col">
           <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
