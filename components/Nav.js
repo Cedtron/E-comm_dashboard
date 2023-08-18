@@ -49,14 +49,14 @@ export default function Nav() {
             
           </Link>
         </li>
-        {/* <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
+        <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/orders'} className={pathname.includes('/orders') ? activeLink : inactiveLink}>
               <BsCart4 />
               Orders
               
             
           </Link>
-        </li> */}
+        </li>
         <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/sale'} className={pathname.includes('/sale') ? activeLink : inactiveLink}>
               <BsCart4 />

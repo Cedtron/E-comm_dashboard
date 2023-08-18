@@ -3,9 +3,8 @@ import axios from 'axios';
 import Layout from '@/components/Layout';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
-import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
+import DataTable from 'react-data-table-component';
 import { useForm, Controller } from 'react-hook-form';
-import Cat from './cat';
 
 export default function Categories() {
   const [editedCategory, setEditedCategory] = useState(null);
@@ -20,19 +19,60 @@ export default function Categories() {
     fetchCategories();
   }, []);
 
-  function fetchCategories() {
-    axios.get('/api/categories').then((result) => {
-      setCategories(result.data);
-    });
+  async function fetchCategories() {
+    const result = await axios.get('/api/categories');
+    setCategories(result.data);
   }
 
- 
+  async function deleteCategory(category) {
+    const result = await swal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to delete ${category.name}?`,
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Yes, Delete!',
+      confirmButtonColor: '#d55',
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      await axios.delete(`/api/categories?_id=${category._id}`);
+      fetchCategories();
+    }
+  }
+
+  const columns = [
+    {
+      name: 'Category name',
+      selector: 'name',
+      sortable: true,
+    },
+    {
+      name: 'Parent category',
+      cell: (row) => (row.parent ? row.parent.name : 'No parent category'),
+      sortable: true,
+    },
+    {
+      name: 'Action',
+      cell: (row) => (
+        <div>
+          <button onClick={() => editCategory(row)}  
+           className="shadow m-2 bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          ><FaEdit /> Edit</button>
+          <button onClick={() => deleteCategory(row)}
+           className="shadow m-2 bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          ><RiDeleteBin5Fill/> Delete</button>
+        </div>
+      ),
+    },
+  ];
 
   async function saveCategory(data) {
     data.properties = data.properties.map((property) => ({
       name: property.name,
       values: property.values.split(','),
     }));
+    
     if (editedCategory) {
       data._id = editedCategory._id;
       await axios.put('/api/categories', data);
@@ -40,11 +80,10 @@ export default function Categories() {
     } else {
       await axios.post('/api/categories', data);
     }
+    
     reset();
     fetchCategories();
   }
-
-
 
   function addProperty() {
     append({ name: '', values: '' });
@@ -53,8 +92,6 @@ export default function Categories() {
   function removeProperty(index) {
     remove(index);
   }
-
-
 
   return (
     <Layout>
@@ -66,6 +103,8 @@ export default function Categories() {
           <label>
             {editedCategory ? `Edit category ${editedCategory.name}` : 'Create new category'}
           </label>
+        
+           
           <form onSubmit={handleSubmit(saveCategory)} className="w-full">
             <div className="flex gap-1">
               <Controller
@@ -163,8 +202,16 @@ export default function Categories() {
             </div>
           </form>
 
-          {/* React Table */}
-       <Cat info={categories}/>
+          <div>
+        <DataTable
+          title="Categories"
+          columns={columns}
+          data={categories}
+          pagination
+          highlightOnHover
+          striped
+        />
+      </div>
         </div>
       </div>
     </Layout>

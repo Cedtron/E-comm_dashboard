@@ -8,10 +8,8 @@ import { useSnackbar } from 'notistack';
 
 export default function Check() {
   const { data: session } = useSession();
-  const [productId,setProductId] = useState();
   const { cartProducts, addProduct, removeProduct, clearCart } = useContext(CartContext);
   const [products, setProducts] = useState([]);
-  const [saler,setSaler] = useState();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [swalProps, setSwalProps]= useState({});
   const [isSuccess, setIsSuccess] = useState(false);
@@ -23,6 +21,7 @@ export default function Check() {
       });
     } else { 
       setProducts([]);
+     
     }
   }, [cartProducts]);
  useEffect(() => {
@@ -30,7 +29,8 @@ export default function Check() {
       return;
     }
     if (window?.location.href.includes('success')) {
-      setIsSuccess(true);
+      setIsSuccess(true); 
+    
       clearCart();
     }
   }, []);
@@ -57,14 +57,15 @@ let total = 0;
     // * cartProducts.filter((id) => id === productId).length;
   }
 
-  // setProductId(id)
+ 
   async function checkout(){
     const btn= document.getElementById('dis')
-    setSaler(session?.user?.name)
     
-      const esawa= new Date(); 
-     const items=cartProducts
+    const saler=  session?.user?.name
+          const esawa= new Date(); 
+     const items=cartProducts 
       const price=total
+   
    
       const data = {items,price,saler,esawa };
      
@@ -129,15 +130,42 @@ let total = 0;
                         <div className="w-5 rounded-md">
                           <img src={product.images[0]} alt="" className='w-2/4  rounded-lg' />
                         </div>
-                       
+                     
                         {product.title}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      <button onClick={() => lessOfThisProduct(product._id)} className='w-9 h-9 rounded-lg flex items-center justify-center text-slate-700  peer-checked:bg-black-900 peer-checked:text-white'>-</button>
-                      <label>{cartProducts.filter((id) => id === product._id).length}</label>
-                      <button onClick={() => moreOfThisProduct(product._id)} className='w-9 h-9 rounded-lg flex items-center justify-center text-slate-700  peer-checked:bg-black-900 peer-checked:text-white'>+</button>
-                    </td>
+  <button
+    onClick={() => lessOfThisProduct(product._id)}
+    className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:bg-black-900 peer-checked:text-white"
+  >
+    -
+  </button>
+  <label>
+    {(() => {
+      let p = cartProducts.filter((id) => id === product._id).length;
+      let sto = product.stock;
+     
+
+      if (p > sto) {
+        return "Out of stock";
+      } else {
+        return p;
+      }
+    })()}
+  </label>
+  <button
+    onClick={() => moreOfThisProduct(product._id)}
+    className={`w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:bg-black-900 peer-checked:text-white ${
+      cartProducts.filter((id) => id === product._id).length >= product.stock
+        ? "hidden"
+        : ""
+    }`}
+    disabled={cartProducts.filter((id) => id === product._id).length >= product.stock}
+  >
+    +
+  </button>
+</td>
                     <td className="whitespace-nowrap px-6 py-4">${(product.price * cartProducts.filter((id) => id === product._id).length).toFixed(0)}</td>
                   </tr>
                 ))}

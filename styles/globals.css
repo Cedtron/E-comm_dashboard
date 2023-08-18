@@ -523,6 +523,18 @@ button,
 table {
   border-collapse: collapse;
 }
+.table-header {
+  background-color: #blue-500;
+  color: #ffffff;
+  font-weight: bold;
+}
+Apply the table-header class to the header cells using the headerClass prop for each column in the columns array. However, please note that the exact class names and styles might vary depending on your CSS framework and styling conventions.
+
+
+
+
+
+
 
 h1,
 h2,
