@@ -1,5 +1,4 @@
 import '@/styles/globals.css';
-import 'simple-datatables/dist/style.css'; 
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack"
 import { CartContextProvider } from '@/components/context';

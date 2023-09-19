@@ -3,18 +3,23 @@ import {mongooseConnect} from "@/lib/mongoose";
 import {isAdminRequest} from "@/pages/api/auth/[...nextauth]";
 
 export default async function handle(req, res) {
-  const {method} = req;
+  const { method } = req;
+  try {
+ 
   await mongooseConnect();
   await isAdminRequest(req,res);
 
   if (method === 'GET') {
     if (req.query?.id) {
       res.json(await Sale.findOne({_id:req.query.id}));
-    } else {
+    } 
+    else if (req.query?.saler) {
+      res.json(await Sale.findOne({saler:req.query.saler}));
+    } else{
       res.json(await Sale.find());
     }
   }
-
+  
   if (method === 'POST') {
     const {productId,product,stock, price,saler,esawa } = req.body;
     const SaleDoc = await Sale.create({
@@ -38,4 +43,8 @@ export default async function handle(req, res) {
       res.json(true);
     }
   }
+}  catch (error) {
+  console.error('Internal server error:', error);
+  res.status(500).json({ error: 'Internal server error' });
+}
 }

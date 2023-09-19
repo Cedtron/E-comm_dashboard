@@ -212,6 +212,10 @@ module.exports = {
   prefix: '',
   important: false,
   separator: ':',
+  content: [
+    './pages/**/*.{html,js}',
+    './components/**/*.{html,js}',
+  ],
   theme: {
       screens: {
           sm: '640px',

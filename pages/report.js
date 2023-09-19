@@ -40,16 +40,43 @@ export default function Report() {
       sortable: true,
       format: (row) => `$${row.price.toFixed(2)}`,
     },
-    {
-      name: 'Date',
+    {                                      
+      name: 'Date',                 
       selector: 'createdAt',
       sortable: true,
       format: (row) => new Date(row.createdAt).toLocaleString(),
+    },
+    {
+      name: 'View',
+      cell: (row) => (
+        <Link href={`/sales/${row._id}`}    className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              >
+          View
+        </Link>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
   ];
 
   const filteredSales = sales.filter((sale) =>
     sale.saler.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Calculate total price of all sales
+  const totalSalesPrice = sales.reduce((total, sale) => total + sale.price, 0);
+
+  // Calculate total price of sales this month
+  const currentDate = new Date();
+  const currentMonthSales = sales.filter(
+    sale =>
+      new Date(sale.createdAt).getMonth() === currentDate.getMonth() &&
+      new Date(sale.createdAt).getFullYear() === currentDate.getFullYear()
+  );
+  const totalMonthSalesPrice = currentMonthSales.reduce(
+    (total, sale) => total + sale.price,
+    0
   );
 
   return (
@@ -73,6 +100,10 @@ export default function Report() {
             striped
             dense
           />
+       <div className="flex justify-between">
+            <div>Total price of all sales: ${totalSalesPrice.toFixed(2)}</div>
+            <div>Total price of sales this month: ${totalMonthSalesPrice.toFixed(2)}</div>
+          </div>
         </div>
       </div>
     </Layout>

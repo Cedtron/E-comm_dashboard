@@ -15,7 +15,7 @@ export default function Products() {
       setProducts(response.data);
     });
   }, []);
-
+ 
   const columns = [
     {
       name: 'Product image',
@@ -49,12 +49,15 @@ export default function Products() {
     image: product.images[0],
   }));
 
-  const filteredData = data.filter((item) =>
+ const filteredData = data.filter((item) =>
     Object.values(item).some((value) =>
       String(value).toLowerCase().includes(searchText.toLowerCase())
     )
   );
 
+  const totalProducts = filteredData.length; 
+
+  
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
@@ -84,6 +87,7 @@ export default function Products() {
           }
           pagination
         />
+     <div className="p-4">Total number of products: {totalProducts}</div>
       </div>
     </Layout>
   );

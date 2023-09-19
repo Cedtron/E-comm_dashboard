@@ -18,7 +18,7 @@ export default function Products() {
       setProducts(response.data);
       setTableData(response.data);
     });
-  }, []);
+  }, []); 
 
   const columns = [
     {
@@ -49,6 +49,7 @@ export default function Products() {
       name: "Price",
       selector: "price",
       sortable: true,
+      
       format: (row) => `$${row.price}`,
     },
     {

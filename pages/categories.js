@@ -1,44 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Layout from '@/components/Layout';
+import Layout from "@/components/Layout";
+import {useEffect, useState} from "react";
+import axios from "axios";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import DataTable from 'react-data-table-component';
-import { useForm, Controller } from 'react-hook-form';
+import { withSwal } from 'react-sweetalert2';
 
-export default function Categories() {
+function Categories({swal}) {
   const [editedCategory, setEditedCategory] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const { handleSubmit, control, setValue, reset, fields, append, remove } = useForm({
-    defaultValues: {
-      properties: [{ name: '', values: '' }],
-    },
-  });
-
+  const [name,setName] = useState('');
+  const [parentCategory,setParentCategory] = useState('');
+  const [categories,setCategories] = useState([]);
+  const [properties,setProperties] = useState([]);
   useEffect(() => {
     fetchCategories();
-  }, []);
-
-  async function fetchCategories() {
-    const result = await axios.get('/api/categories');
-    setCategories(result.data);
-  }
-
-  async function deleteCategory(category) {
-    const result = await swal.fire({
-      title: 'Are you sure?',
-      text: `Do you want to delete ${category.name}?`,
-      showCancelButton: true,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Yes, Delete!',
-      confirmButtonColor: '#d55',
-      reverseButtons: true,
+  }, [])
+  function fetchCategories() {
+    axios.get('/api/categories').then(result => {
+      setCategories(result.data);
     });
-
-    if (result.isConfirmed) {
-      await axios.delete(`/api/categories?_id=${category._id}`);
-      fetchCategories();
-    }
   }
 
   const columns = [
@@ -66,13 +46,16 @@ export default function Categories() {
       ),
     },
   ];
-
-  async function saveCategory(data) {
-    data.properties = data.properties.map((property) => ({
-      name: property.name,
-      values: property.values.split(','),
-    }));
-    
+  async function saveCategory(ev){
+    ev.preventDefault();
+    const data = {
+      name,
+      parentCategory,
+      properties:properties.map(p => ({
+        name:p.name,
+        values:p.values.split(','),
+      })),
+    };
     if (editedCategory) {
       data._id = editedCategory._id;
       await axios.put('/api/categories', data);
@@ -80,19 +63,65 @@ export default function Categories() {
     } else {
       await axios.post('/api/categories', data);
     }
-    
-    reset();
+    setName('');
+    setParentCategory('');
+    setProperties([]);
     fetchCategories();
   }
-
+  function editCategory(category){
+    setEditedCategory(category);
+    setName(category.name);
+    setParentCategory(category.parent?._id);
+    setProperties(
+      category.properties.map(({name,values}) => ({
+      name,
+      values:values.join(',')
+    }))
+    );
+  }
+  function deleteCategory(category){
+    swal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to delete ${category.name}?`,
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Yes, Delete!',
+      confirmButtonColor: '#d55',
+      reverseButtons: true,
+    }).then(async result => {
+      if (result.isConfirmed) {
+        const {_id} = category;
+        await axios.delete('/api/categories?_id='+_id);
+        fetchCategories();
+      }
+    });
+  }
   function addProperty() {
-    append({ name: '', values: '' });
+    setProperties(prev => {
+      return [...prev, {name:'',values:''}];
+    });
   }
-
-  function removeProperty(index) {
-    remove(index);
+  function handlePropertyNameChange(index,property,newName) {
+    setProperties(prev => {
+      const properties = [...prev];
+      properties[index].name = newName;
+      return properties;
+    });
   }
-
+  function handlePropertyValuesChange(index,property,newValues) {
+    setProperties(prev => {
+      const properties = [...prev];
+      properties[index].values = newValues;
+      return properties;
+    });
+  }
+  function removeProperty(indexToRemove) {
+    setProperties(prev => {
+      return [...prev].filter((p,pIndex) => {
+        return pIndex !== indexToRemove;
+      });
+    });
+  }
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
@@ -100,120 +129,99 @@ export default function Categories() {
           <h1 className="text-lg text-center">Categories</h1>
         </div>
         <div className="mx-auto p-4">
-          <label>
-            {editedCategory ? `Edit category ${editedCategory.name}` : 'Create new category'}
-          </label>
-        
-           
-          <form onSubmit={handleSubmit(saveCategory)} className="w-full">
-            <div className="flex gap-1">
-              <Controller
-                name="name"
-                control={control}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="text"
-                    className="w-1/2 h-8 p-2 rounded-md shadow-md"
-                    placeholder="Category name"
-                  />
-                )}
-              />
-              <Controller
-                name="parentCategory"
-                control={control}
-                render={({ field }) => (
-                  <select {...field}>
-                    <option value="">No parent category</option>
-                    {categories.length > 0 &&
-                      categories.map((category) => (
-                        <option key={category._id} value={category._id}>
-                          {category.name}
-                        </option>
-                      ))}
-                  </select>
-                )}
-              />
-            </div>
-            <div className="mb-2 p-2">
-              <label className="block">Properties</label>
+      <label>
+        {editedCategory
+          ? `Edit category ${editedCategory.name}`
+          : 'Create new category'}
+      </label>
+      <form onSubmit={saveCategory}>
+        <div className="flex gap-1">
+          <input
+           className="w-1/2 h-8 p-2 rounded-md shadow-md"
+            type="text"
+            placeholder={'Category name'}
+            onChange={ev => setName(ev.target.value)}
+            value={name}/>
+          <select
+                  onChange={ev => setParentCategory(ev.target.value)}
+                  value={parentCategory}>
+            <option value="">No parent category</option>
+            {categories.length > 0 && categories.map(category => (
+              <option key={category._id} value={category._id}>{category.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-2">
+          <label className="block">Properties</label>
+          <button
+            onClick={addProperty}
+            type="button"
+            className="shadow m-2 bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            >
+            Add new property
+          </button>
+          {properties.length > 0 && properties.map((property,index) => (
+            <div key={property.name} className="flex gap-1 mb-2">
+              <input type="text"
+                     value={property.name}
+                     className="w-1/2 h-8 p-2 rounded-md shadow-md"
+                     onChange={ev => handlePropertyNameChange(index,property,ev.target.value)}
+                     placeholder="property name (example: color)"/>
+              <input type="text"
+                      className="w-1/2 h-8 p-2 rounded-md shadow-md"
+                     onChange={ev =>
+                       handlePropertyValuesChange(
+                         index,
+                         property,ev.target.value
+                       )}
+                     value={property.values}
+                     placeholder="values, comma separated"/>
               <button
+                onClick={() => removeProperty(index)}
                 type="button"
-                onClick={() => addProperty()}
-                className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              >
-                Add new property
+                className="shadow bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                ><RiDeleteBin5Fill/>
+                Remove
               </button>
-              {fields?.properties?.map((item, index) => (
-                <div key={item.id} className="flex gap-1 mb-2">
-                  <Controller
-                    name={`properties[${index}].name`}
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        type="text"
-                        className="bg-grey-200 appearance-none border-1 border-grey-200 rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-purple-light"
-                        placeholder="property name (example: color)"
-                      />
-                    )}
-                  />
-                  <Controller
-                    name={`properties[${index}].values`}
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        type="text"
-                        className="bg-grey-200 appearance-none border-1 border-grey-200 rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-purple-light"
-                        placeholder="values, comma separated"
-                      />
-                    )}
-                  />
-                  <button
-                    onClick={() => removeProperty(index)}
-                    type="button"
-                    className="bg-red-500 rounded-md p-2 text-white w-1/5"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
             </div>
-            <div className="flex gap-1">
-              {editedCategory && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditedCategory(null);
-                    reset();
-                  }}
-                  className="btn-default"
-                >
-                  Cancel
-                </button>
-              )}
-              <button
+          ))}
+        </div>
+        <div className="flex gap-1">
+          {editedCategory && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditedCategory(null);
+                setName('');
+                setParentCategory('');
+                setProperties([]);
+              }}
+              className="shadow bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Cancel</button>
+          )}
+         <button
                 type="submit"
                 className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               >
-                Save
-              </button>
-            </div>
-          </form>
-
-          <div>
-        <DataTable
-          title="Categories"
-          columns={columns}
-          data={categories}
-          pagination
-          highlightOnHover
-          striped
-        />
-      </div>
+            Save
+          </button>
         </div>
+      </form>
+   
+       <DataTable
+       title="Categories"
+       columns={columns}
+       data={categories}
+       pagination
+       highlightOnHover
+       striped
+     />
+ 
+ </div>
       </div>
     </Layout>
   );
 }
+
+export default withSwal(({swal}, ref) => (
+  <Categories swal={swal} />
+));

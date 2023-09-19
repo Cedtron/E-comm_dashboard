@@ -68,7 +68,8 @@ export default function OrdersPage() {
     {
       name: 'View',
       cell: (row) => (
-        <Link href={`/orders/${row._id}`} className="text-blue-500">
+        <Link href={`/orders/${row._id}`}   className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+        >
           View
         </Link>
       ),
