@@ -7,18 +7,37 @@ export default async function handle(req, res) {
   try {
  
   await mongooseConnect();
-  await isAdminRequest(req,res);
+  // await isAdminRequest(req,res);
 
   if (method === 'GET') {
-    if (req.query?.id) {
-      res.json(await Sale.findOne({_id:req.query.id}));
-    } 
-    else if (req.query?.saler) {
-      res.json(await Sale.findOne({saler:req.query.saler}));
-    } else{
-      res.json(await Sale.find());
+    try {
+      if (req.query?.id) {
+        const sale = await Sale.findOne({ _id: req.query.id });
+        if (sale) {
+          res.json(sale);
+        } else {
+          res.status(404).json({ message: 'Sale not found' });
+        }
+      } else if (req.query?.saler) {
+        const sale = await Sale.findOne({ saler: req.query.saler });
+        if (sale) {
+          res.json(sale);
+        
+        } else {
+          res.status(404).json({ message: 'Sale not found' });
+          console.log("failed")
+        }
+      } else {
+        const sales = await Sale.find();
+        res.json(sales);
+      }
+    } catch (error) {
+      // Handle any errors that occur during database operations
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   }
+  
   
   if (method === 'POST') {
     const {productId,product,stock, price,saler,esawa } = req.body;

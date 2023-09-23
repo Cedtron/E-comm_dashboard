@@ -1,38 +1,56 @@
-import NextAuth, {getServerSession} from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
-import {MongoDBAdapter} from "@next-auth/mongodb-adapter";
-import clientPromise from "@/lib/mongodb";
+import NextAuth from 'next-auth';
+import { getSession } from 'next-auth/react';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { MongoClient } from 'mongodb'; // Import MongoClient from 'mongodb'
 
-const adminEmails = ['cedricallan16@gmail.com'];
+import { User } from '@/models/User';
+import bcrypt from 'bcrypt';
+import { mongooseConnect } from '@/lib/mongoose';
 
-export const authOptions = {
-  secret: process.env.SECRET,
+
+
+export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        try {
+          
+       
+
+          const user = await fetchUserByEmail(credentials.email);
+
+          // If the user doesn't exist or the password is incorrect, return null
+          if (!user || !(await bcrypt.compare(credentials.password, user.password))) {
+       
+            return null;
+          }
+
+         
+          return user; // Return the user object if authenticadxted
+        } catch (error) {
+          console.error('Error fetching user:', error);
+          return null; // Handle the error gracefully
+        }
+      },
     }),
   ],
-  pages:{}
-  adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    session: ({session,token,user}) => {
-      if (adminEmails.includes(session?.user?.email)) {
+    async session({ session, token, user }) {
+      if (user) {
+        session.user.role = user.role;
         return session;
-      } else {
-        return false;
       }
+      return null;
     },
   },
-};
-
-export default NextAuth(authOptions);
-
-export async function isAdminRequest(req,res) {
-  const session = await getServerSession(req,res,authOptions);
-  if (!adminEmails.includes(session?.user?.email)) {
-    res.status(401);
-    res.end();
-    throw 'not an admin';
-  }
-}
+});

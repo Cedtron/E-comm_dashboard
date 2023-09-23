@@ -5,6 +5,7 @@ export default function Stripe(props) {
 
   const currentDate = new Date();
 
+
   // Filter sales for today's date
   const dailySales = salesData.filter(
     sale => new Date(sale.createdAt).toDateString() === currentDate.toDateString()

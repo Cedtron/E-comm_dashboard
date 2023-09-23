@@ -11,13 +11,14 @@ export default function Login() {
 
   async function onLogin(data) {
     const res = await signIn("credentials", {
-      user: data.username,
+      email: data.emali,
       password: data.password,
       redirect: true,
       callbackUrl: "/",
     }); 
 
-    console.log(data)
+    
+ 
   }
 
   return (
@@ -29,16 +30,16 @@ export default function Login() {
               <form onSubmit={handleSubmit(onLogin)}>
                 <p className="text-gray-800 text-center text-lg font-bold">Login</p>
                 <div className="">
-                  <label className="block text-sm text-gray-600" htmlFor="username">Username</label>
+                  <label className="block text-sm text-gray-600" htmlFor="emali">Email</label>
                   <input
-                    className={`w-full px-5 py-1 text-gray-700 bg-gray-200 rounded ${errors.username ? 'border-red-500' : ''}`}
-                    id="username"
-                    {...register('username', { required: true })}
+                    className={`w-full px-5 py-1 text-gray-700 bg-gray-200 rounded ${errors.emali ? 'border-red-500' : ''}`}
+                    id="emali"
+                    {...register('emali', { required: true })}
                     type="text"
                     placeholder="User Name"
-                    aria-label="username"
+                    aria-label="emali"
                   />
-                  {errors.username && <span className="text-red-500">Username is required</span>}
+                  {errors.emali && <span className="text-red-500">emali is required</span>}
                 </div>
                 <div className="mt-2">
                   <label className="block text-sm text-gray-600" htmlFor="password">Password</label>

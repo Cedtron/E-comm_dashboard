@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'; // Import bcrypt
 export default async function handle(req, res) {
   const { method } = req;
   await mongooseConnect();
-  await isAdminRequest(req, res);
+  // await isAdminRequest(req, res);
 
   if (method === 'GET') {
     if (req.query?.id) {

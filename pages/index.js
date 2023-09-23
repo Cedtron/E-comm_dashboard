@@ -12,18 +12,33 @@ export default function Home() {
   const isAdmin = session?.user?.role === "admin";
 
   const [sales, setSales] = useState([]);
+let saler = session?.user?.name;
 
-  useEffect(() => {
-    if (isAdmin) {
-      axios.get('/api/sales').then(response => {
+
+useEffect(() => {
+  if (isAdmin) {
+    axios
+      .get('/api/sales')
+      .then((response) => {
         setSales(response.data);
+        console.log(sales, "admin");
+      })
+      .catch((error) => {
+        console.error("Error fetching sales data:", error);
       });
-    } else if (session?.user?.name) {
-      axios.get(`/api/sales?saler=${encodeURIComponent(session.user.name)}`).then(response => {
+  } else if (saler) { // Removed unnecessary use of session?.user?.name
+    // Fixed code by directly using 'saler' variable
+    axios
+      .get(`/api/sales?saler=${encodeURIComponent(saler)}`)
+      .then((response) => {
         setSales(response.data);
+      
+      })
+      .catch((error) => {
+        console.error("Error fetching sales data:", error);
       });
-    }
-  }, [isAdmin, session]);
+  }
+}, [isAdmin, saler]);
 
 
   const columns = [
@@ -54,7 +69,7 @@ export default function Home() {
       format: row => new Date(row.esawa).toLocaleDateString(),
     },
   ];
-
+ 
 
 
   return <Layout>

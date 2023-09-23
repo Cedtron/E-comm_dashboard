@@ -8,8 +8,7 @@ import Login from './login';
 
 export default function Layout({children}) {
 
-    const [showNav,setShowNav] = useState(false);
-    const { data: session } = useSession();
+ const { data: session } = useSession();
     function sidebarToggle() {
       const sidebar = document.getElementById('sidebar');
       if (sidebar.style.display === "none") {
@@ -18,6 +17,7 @@ export default function Layout({children}) {
         sidebar.style.display = "none";
       }
     }
+
     if (!session) {
       return (
         <div >
