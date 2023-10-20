@@ -25,23 +25,29 @@ export const authOptions = {
       },
       async authorize(credentials) {
         const { email, password } = credentials;
-       
+      
         try {
           await mongooseConnect();
           const user = await User.findOne({ email });
-
+      
           if (!user) {
             return null;
           }
-
+      
           const passwordsMatch = await bcrypt.compare(password, user.password);
-//  console.log('User:', email);
-//         console.log('Passwords match:', passwordsMatch);
+      
           if (!passwordsMatch) {
             return null;
           }
-
-          return user;
+      
+          const roles = user.roles; // Change this to 'user.roles'
+          const userData = {
+            user: user,
+            roles: roles,
+          };
+      
+          return userData;
+    
         } catch (error) {
           console.log('Error: ', error);
         }
@@ -50,48 +56,48 @@ export const authOptions = {
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    // async session({ session, user }) {
-    //   if (user) {
-    //   session.user = {
-    //     email: user.email,
-    //     role: user.role,
-    //   };
-    //   }
-    //   return session;
-    // },
-    // async session({ session, token, user }) {
-    //   session.accessToken = token.accessToken;
-    //   session.user = {
-    //     email: user.email,
-    //     role: user.role,
-    //   };
-    //   return session;
-    // },
-    async jwt({token,user,session}){
-console.log("jwt callback",{token,user,session})
-return token;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.user._id; 
+        token.name = user.user.name; 
+        token.email = user.user.email; 
+        token.roles = user.user.role; 
+      }
+      return token;
     },
-  
-    async session({ session, token,user }) {
-      // session.accessToken = token.accessToken;
-      console.log("session callback",{ session, token,user })
-      return session
-    },
+    async session({ session, token }) {
+      session.user = {
+        id: token.id, 
+        name: token.name, 
+        email: token.email, 
+        roles: token.roles, 
+      };
 
 
+      return session;
+    },
   },
-  session:{strategy:"jwt",}
-  ,
-
+  session: {
+    strategy: "jwt",
+  },
 };
 
 export default NextAuth(authOptions);
-export async function isAdminRequest(req,res) {
-  const session = await getServerSession(req,res,authOptions);
-  if ((session?.user?.email)) {
-    res.status(401);
-    res.end();
-    throw 'not an admin';
+export async function isAdminRequest(req, res) {
+  const session = await getServerSession(req, res, authOptions);
+
+  if (session?.user?.roles) {
+    const roles = session.user.roles;
+
+    if (roles.includes('admin')) {
+      // Allow access for admin roles
+      return;
+    }
   }
+
+  // Deny access for all other cases
+  res.status(401);
+  res.end();
+  throw 'Not an admin';
 }
 

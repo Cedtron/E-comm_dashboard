@@ -21,7 +21,10 @@ export default function Nav() {
     await router.push('/');
   }
 
-  const isAdmin = session?.user?.role === "admin"; // Assuming role is "admin" for admin users
+// console.log("here is",  session?.user?.roles)
+const isAdmin = session?.user?.roles === "admin"; 
+
+  // const isAdmin = "admin";
 
   return (
     <aside id="sidebar" className="bg-blue-600 text-white w-1/2 md:w-1/6 lg:w-1/6 border-r object-top border-side-nav hidden md:block lg:block">

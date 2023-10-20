@@ -43,6 +43,7 @@ export default function Layout({children}) {
         <img src={session?.user?.image} alt="" className="w-6 h-6"/>
         <span className="px-2">
           {session?.user?.name}
+          {session?.user?.role}
         </span>
       </div>
                     <div id="ProfileDropDown" className="rounded hidden shadow-md bg-white absolute pin-t mt-12 mr-1 pin-r">

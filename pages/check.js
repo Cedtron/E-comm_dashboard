@@ -142,6 +142,7 @@ export default function Check() {
                         <tr>
                           <th className="p-2">Product</th>
                           <th className="p-2">Quantity</th>
+                          <th className="p-2">Orignal Price</th>
                           <th className="p-2">Price</th>
                         </tr>
                       </thead>
@@ -190,6 +191,11 @@ export default function Check() {
                                 +
                               </button>
                             </td>
+
+                            <td className="whitespace-nowrap px-6 py-4">
+                            {product.price}
+                            </td>
+
                             <td className="whitespace-nowrap px-6 py-4">
                               <input
                                 type="number"
@@ -197,7 +203,7 @@ export default function Check() {
                                 value={editedPrices[product._id] || (product.price * cartProducts.filter((id) => id === product._id).length).toFixed(0)}
                                 onChange={(e) => handlePriceChange(product._id, e.target.value)}
                               />
-                              <button onClick={() => saveEditedPrice(product._id)}>Save</button>
+                              <button onClick={() => saveEditedPrice(product._id)} className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4">Save</button>
                             </td>
                           </tr>
                         ))}
