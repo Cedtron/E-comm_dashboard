@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import DataTable from 'react-data-table-component';
+import Color from '@/components/color';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -24,7 +25,10 @@ export default function Products() {
     { name: 'Product name', selector: 'title' },
     { name: 'Category', selector: 'category' },
     { name: 'Stock', selector: 'stock' },
-    { name: 'Color', selector: 'color' },
+    {
+      name: 'Color',
+      cell: (row) => <Color colors={row.color.split(',')} />,
+    },
     { name: 'Price', selector: 'price' },
     { name: 'Rating', selector: 'rating' },
     {

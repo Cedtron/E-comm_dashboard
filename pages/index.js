@@ -112,8 +112,8 @@ useEffect(() => {
           </div>
         </div>
 
-        <Summer
-         data={sales} />
+        {/* <Summer
+         data={sales} /> */}
 </div>
   </Layout>
 }

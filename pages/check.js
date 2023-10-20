@@ -11,44 +11,24 @@ export default function Check() {
   const { data: session } = useSession();
   const { cartProducts, addProduct, removeProduct, clearCart } = useContext(CartContext);
   const [products, setProducts] = useState([]);
+  const [editedPrices, setEditedPrices] = useState({});
+  const [isSuccess, setIsSuccess] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [swalProps, setSwalProps] = useState({});
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [editedPrices, setEditedPrices] = useState({});
-  let total = 0; // Initialize the total variable here
 
   useEffect(() => {
     if (cartProducts.length > 0) {
       axios.post('/api/cart', { ids: cartProducts })
         .then(response => {
-          // Handle successful response
           setProducts(response.data);
         })
         .catch(error => {
-          // Handle Axios request error
           console.error('Axios request error:', error);
-  
-          // You can set an error state or take other actions as needed
         });
     } else {
       setProducts([]);
     }
   }, [cartProducts]);
-  console.log(products)  
-  
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-    if (window?.location.href.includes('success')) {
-      setIsSuccess(true); 
-      setIsSuccess(true); 
-    
-      setIsSuccess(true);
-    
-      clearCart();
-    }
-  }, []);
 
   function moreOfThisProduct(id) {
     addProduct(id);
@@ -63,33 +43,33 @@ export default function Check() {
   }
 
   function handlePriceChange(productId, value) {
-    setEditedPrices((prevPrices) => ({
+    setEditedPrices(prevPrices => ({
       ...prevPrices,
       [productId]: parseFloat(value) || 0,
     }));
   }
 
-  async function saveEditedPrice(productId) {
-    const editedPrice = editedPrices[productId];
-
-    // Calculate the total price based on edited prices
-    let newTotal = 0;
-    for (const product of products) {
-      const price = editedPrice || product.price; // Use the edited price if available, otherwise use the original price
-      const quantity = cartProducts.filter((id) => id === product._id).length;
-      newTotal += price * quantity;
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
     }
+    if (window?.location.href.includes('success')) {
+      setIsSuccess(true);
+      clearCart();
+    }
+  }, []);
 
-    // Update the total variable with the new total
-    total = newTotal;
-
-    // Update the cartProducts state with the edited price
-    // clearCart();
-    // cartProducts.forEach((product) => {
-    //   addProduct(product);
-    // });
+  function calculateTotal(products, cartProducts, editedPrices) {
+    let total = 0;
+    for (const product of products) {
+      const price = editedPrices[product._id] || product.price;
+      const quantity = cartProducts.filter(id => id === product._id).length;
+      total += price * quantity;
+    }
+    return total;
   }
 
+  const total = calculateTotal(products, cartProducts, editedPrices);
   async function checkout() {
     const btn = document.getElementById('dis');
     const saler = session?.user?.name;
@@ -142,12 +122,12 @@ export default function Check() {
                         <tr>
                           <th className="p-2">Product</th>
                           <th className="p-2">Quantity</th>
-                          <th className="p-2">Orignal Price</th>
+                          <th className="p-2">Original Price</th>
                           <th className="p-2">Price</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {products.map((product) => (
+                        {products.map(product => (
                           <tr
                             key={product._id}
                             className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
@@ -169,7 +149,7 @@ export default function Check() {
                               </button>
                               <label>
                                 {(() => {
-                                  let p = cartProducts.filter((id) => id === product._id).length;
+                                  let p = cartProducts.filter(id => id === product._id).length;
                                   let sto = product.stock;
 
                                   if (p > sto) {
@@ -182,26 +162,26 @@ export default function Check() {
                               <button
                                 onClick={() => moreOfThisProduct(product._id)}
                                 className={`w-9 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:bg-black-900 peer-checked:text-white ${
-                                  cartProducts.filter((id) => id === product._id).length >= product.stock
+                                  cartProducts.filter(id => id === product._id).length >= product.stock
                                     ? 'hidden'
                                     : ''
                                 }`}
-                                disabled={cartProducts.filter((id) => id === product._id).length >= product.stock}
+                                disabled={cartProducts.filter(id => id === product._id).length >= product.stock}
                               >
                                 +
                               </button>
                             </td>
 
                             <td className="whitespace-nowrap px-6 py-4">
-                            {product.price}
+                              {product.price}
                             </td>
 
                             <td className="whitespace-nowrap px-6 py-4">
                               <input
                                 type="number"
                                 min="0"
-                                value={editedPrices[product._id] || (product.price * cartProducts.filter((id) => id === product._id).length).toFixed(0)}
-                                onChange={(e) => handlePriceChange(product._id, e.target.value)}
+                                value={editedPrices[product._id] || (product.price * cartProducts.filter(id => id === product._id).length).toFixed(0)}
+                                onChange={e => handlePriceChange(product._id, e.target.value)}
                               />
                               <button onClick={() => saveEditedPrice(product._id)} className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4">Save</button>
                             </td>
@@ -224,7 +204,7 @@ export default function Check() {
           </button>
           <button
             onClick={emptyCart}
-            className="bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
+            className="bg-red-600 hover.bg-red-400 focus.shadow-outline focus.outline-none text-white font.bold py-2 px-4 rounded m-4"
           >
             Empty Cart
           </button>

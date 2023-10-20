@@ -3,16 +3,28 @@ import React from 'react';
 export default function Stripe(props) {
   const { salesData } = props;
 
+  if (!Array.isArray(salesData)) {
+    // Handle the case where salesData is not an array, e.g., display an error message
+    return (
+      <div>
+        <p>Error: salesData is not an array.</p>
+      </div>
+    );
+  }
+
   const currentDate = new Date();
 
-
   // Filter sales for today's date
-  const dailySales = salesData.filter(
-    sale => new Date(sale.createdAt).toDateString() === currentDate.toDateString()
-  );
+  const dailySales = salesData.filter(sale => {
+    if (sale.createdAt) {
+      const saleDate = new Date(sale.createdAt);
+      return saleDate.toDateString() === currentDate.toDateString();
+    }
+    return false; // Handle null or missing createdAt property
+  });
 
   // Calculate total daily sales price and number of daily sales
-  const dailySalesTotal = dailySales.reduce((total, sale) => total + sale.price, 0);
+  const dailySalesTotal = dailySales.reduce((total, sale) => total + (sale.price || 0), 0);
   const dailySalesCount = dailySales.length;
 
   // Calculate total weekly sales price and number of weekly sales
@@ -20,12 +32,16 @@ export default function Stripe(props) {
   currentWeekStart.setDate(currentDate.getDate() - currentDate.getDay());
 
   // Filter sales for the current week
-  const weeklySales = salesData.filter(
-    sale => new Date(sale.createdAt) >= currentWeekStart
-  );
+  const weeklySales = salesData.filter(sale => {
+    if (sale.createdAt) {
+      const saleDate = new Date(sale.createdAt);
+      return saleDate >= currentWeekStart;
+    }
+    return false; // Handle null or missing createdAt property
+  });
 
   // Calculate total weekly sales price and number of weekly sales
-  const weeklySalesTotal = weeklySales.reduce((total, sale) => total + sale.price, 0);
+  const weeklySalesTotal = weeklySales.reduce((total, sale) => total + (sale.price || 0), 0);
   const weeklySalesCount = weeklySales.length;
 
   return (

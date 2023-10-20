@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import { FaCartPlus } from "react-icons/fa";
 import Link from "next/link";
 import { CartContext } from "@/components/context";
+import Color from "@/components/color";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -40,10 +41,10 @@ export default function Products() {
       selector: "stock",
       sortable: true,
     },
+  
     {
-      name: "Color",
-      selector: "color",
-      sortable: true,
+      name: 'Color',
+      cell: (row) => <Color colors={row.color.split(',')} />,
     },
     {
       name: "Price",
