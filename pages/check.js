@@ -76,7 +76,19 @@ export default function Check() {
     const esawa = new Date();
     const items = cartProducts;
     const price = total;
-    const data = { items, price, saler, esawa };
+    
+
+    const editedItemPrices = [];
+
+    for (const product of products) {
+      const editedPrice = editedPrices[product._id];
+      if (editedPrice !== undefined) {
+        editedItemPrices.push({ productId: product._id, price: editedPrice });
+      }
+    }
+  
+    const data = { items, price, saler, esawa, dprice: editedItemPrices }; // Include editedPrices in the data object
+  
 
     await axios
       .post('/api/sale', data)
@@ -123,7 +135,8 @@ export default function Check() {
                           <th className="p-2">Product</th>
                           <th className="p-2">Quantity</th>
                           <th className="p-2">Original Price</th>
-                          <th className="p-2">Price</th>
+                          <th className="p-2">Edit the Price item</th>
+                          <th className="p-2">Total Price</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -185,12 +198,15 @@ export default function Check() {
                               />
                               <button onClick={() => saveEditedPrice(product._id)} className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4">Save</button>
                             </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+        {((editedPrices[product._id] || product.price) * cartProducts.filter(id => id === product._id).length).toFixed(2)}
+      </td>
                           </tr>
                         ))}
                         <tr>
                           <td></td>
                           <td></td>
-                          <td>${total}</td>
+                          <td>Total  :${total}</td>
                         </tr>
                       </tbody>
                     </table>

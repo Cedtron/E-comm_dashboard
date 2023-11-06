@@ -2,17 +2,47 @@ import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function Report() {
   const [sales, setSales] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const { data: session } = useSession();
+  const  user=session?.user?.name
+  const  role=session?.user?.roles
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  
   useEffect(() => {
-    axios.get('/api/sales').then(response => {
-      setSales(response.data);
-    });
-  }, []);
+    setIsLoading(true);
+    setError(null);
+  
+    let apiUrl = '/api/sales';
+    if (role !== "admin") {
+      apiUrl = `/api/sales?saler=${user}`;
+    }
+  
+    axios.get(apiUrl)
+      .then((response) => {
+        if (response.data && Array.isArray(response.data)) {
+          setSales(response.data);
+          console.log(response.data);
+        } else {
+          console.error("Invalid data format in the API response.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching sales data:", error);
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [role, user]);
 
   const columns = [
     {

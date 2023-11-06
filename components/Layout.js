@@ -39,13 +39,19 @@ export default function Layout({children}) {
                 <div className="p-1 flex flex-row items-center">
                
 
-                    <div className="flex bg-gray-200 gap-1 text-black rounded-lg overflow-hidden">
-        <img src={session?.user?.image} alt="" className="w-6 h-6"/>
-        <span className="px-2">
-          {session?.user?.name}
-          {session?.user?.role}
-        </span>
-      </div>
+                <div className="flex bg-gray-200 gap-1 text-black rounded-lg overflow-hidden">
+  {session?.user?.image ? (
+    <img src={session?.user?.image} alt="" className="w-6 h-6" />
+  ) : (
+    <div className="rounded-full bg-blue-500 text-white w-6 h-6 m-2 flex items-center justify-center">
+      {session?.user?.name ? session?.user?.name[0] : ''}
+    </div>
+  )}
+  <span className="px-2 m-2 ">
+    {session?.user?.name}
+  </span>
+</div>
+
                     <div id="ProfileDropDown" className="rounded hidden shadow-md bg-white absolute pin-t mt-12 mr-1 pin-r">
                         <ul className="list-reset">
                           <li><a href="#" className="no-underline px-4 py-2 block text-black hover:bg-grey-light">My account</a></li>

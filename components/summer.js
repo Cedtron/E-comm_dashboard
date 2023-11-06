@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import 'chartjs-adapter-moment';
 import { Line } from 'react-chartjs-2';
-
+ 
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,6 +24,7 @@ ChartJS.register(
   Legend
 );
 export default function Summer ({ data }) {
+  console.log(data)
   const chartData = {
     labels: data.map(item => new Date(item.createdAt)), // Convert createdAt to Date objects
     datasets: [
@@ -41,17 +42,8 @@ export default function Summer ({ data }) {
     scales: {
       xAxis: {
         type: 'time',
-        time: {
-          unit: 'day',                 // Display by day
-          tooltipFormat: 'MMM D',      // Format for tooltip
-          displayFormats: {
-            day: 'MMM D',              // Format for x-axis labels
-          },
-        },
-        title: {
-          display: true,
-          text: 'Date',
-        },
+       
+       
       },
       yAxis: {
         title: {

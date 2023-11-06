@@ -10,31 +10,26 @@ export default async function handle(req, res) {
   // await isAdminRequest(req,res);
 
   if (method === 'GET') {
-    try {
-      if (req.query?.id) {
-        const sale = await Sale.findOne({ _id: req.query.id });
-        if (sale) {
-          res.json(sale);
-        } else {
-          res.status(404).json({ message: 'Sale not found' });
-        }
-      } else if (req.query?.saler) {
-        const sale = await Sale.findOne({ saler: req.query.saler });
-        if (sale) {
-          res.json(sale);
-        
-        } else {
-          res.status(404).json({ message: 'Sale not found' });
-          console.log("failed")
-        }
-      } else {
-        const sales = await Sale.find();
+    try {if (req.query?.id) {
+        res.json(await Sale.findOne({ _id: req.query.id }));
+        console.log('Sales by id'); 
+      }else
+
+      if (req.query?.saler==null) {
+    res.json(await Sale.find());
+        console.log('All Sales:'); 
+      }     else       
+       {
+       
+        const sales = await Sale.find({ saler: req.query.saler });
         res.json(sales);
-      }
+        console.log('Sales of the saler:',  req.query.saler); 
+      }  
+  
     } catch (error) {
-      // Handle any errors that occur during database operations
+   
       console.error('Error:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
   }
   

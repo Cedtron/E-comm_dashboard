@@ -4,12 +4,12 @@ import { Sale } from "@/models/Sale";
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    res.json('should be a POST request');
+    res.json('Should be a POST request');
     return;
   }
 
   const {
-    items,price,saler,esawa,
+    items, price, saler, esawa, dprice,
   } = req.body;
 
   await mongooseConnect();
@@ -19,13 +19,16 @@ export default async function handler(req, res) {
   const productsInfos = await Product.find({ _id: uniqueIds });
 
   let line_items = [];
-  
+
   for (const productId of uniqueIds) {
     const productInfo = productsInfos.find(p => p._id.toString() === productId);
     const quantity = productsIds.filter(id => id === productId)?.length || 0;
-    
+
     if (quantity > 0 && productInfo) {
-      const unit_amount = quantity * productInfo.price;
+      // Use the edited price if available, otherwise use the original price
+      const editedPrice = dprice.find(ep => ep.productId === productId);
+      const unit_amount = (editedPrice ? editedPrice.price : productInfo.price) * quantity;
+
       line_items.push({
         quantity,
         price_data: {
