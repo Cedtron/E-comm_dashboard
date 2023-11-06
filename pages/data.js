@@ -62,15 +62,17 @@ export default function Data() {
               </div>
               <input type="file" onChange={uploadfiles} className="hidden"/>
             </label>
-          </div>
+        
 
           <button
             type="submit"
             className="bg-blue-400 rounded-md p-2 text-white w-1/5">
             Upload
           </button>
-        </form>
+         </form>
       </div>
     </div>
   </Layout>
-);
+)
+
+}
