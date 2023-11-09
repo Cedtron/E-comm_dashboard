@@ -26,7 +26,10 @@ ChartJS.register(
 export default function Summer ({ data }) {
   console.log(data)
   const chartData = {
-    labels: data.map(item => new Date(item.createdAt)), // Convert createdAt to Date objects
+    labels: data.map(item => {
+      const date = new Date(item.createdAt);
+      return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    }),
     datasets: [
       {
         label: 'Price',
@@ -40,11 +43,7 @@ export default function Summer ({ data }) {
 
   const options = {
     scales: {
-      xAxis: {
-        type: 'time',
-       
-       
-      },
+   
       yAxis: {
         title: {
           display: true,

@@ -35,6 +35,18 @@ const isAdmin = session?.user?.roles === "admin";
             Dashboard
           </Link>
         </li>
+        <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
+          <Link href={'/orders'} className={pathname.includes('/orders') ? activeLink : inactiveLink}>
+            <BsCart4 />
+            Orders
+          </Link>
+        </li>
+        <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
+          <Link href={'/sale'} className={pathname.includes('/sale') ? activeLink : inactiveLink}>
+            <BsCart4 />
+            Sales
+          </Link>
+        </li>
         {isAdmin && (
           <>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
@@ -59,18 +71,7 @@ const isAdmin = session?.user?.roles === "admin";
 
           </>
         )}
-        <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
-          <Link href={'/orders'} className={pathname.includes('/orders') ? activeLink : inactiveLink}>
-            <BsCart4 />
-            Orders
-          </Link>
-        </li>
-        <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
-          <Link href={'/sale'} className={pathname.includes('/sale') ? activeLink : inactiveLink}>
-            <BsCart4 />
-            Sales
-          </Link>
-        </li>
+        
        
         <li className="w-full pl-4 h-full py-3 px-2 ">
           <button onClick={logout} className="bg-white py-2 px-4 rounded-lg text-black w-full">

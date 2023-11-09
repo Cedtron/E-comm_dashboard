@@ -8,29 +8,61 @@ import Link from "next/link";
 export default function Report() {
   const [sales, setSales] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
   const { data: session } = useSession();
-  const  user=session?.user?.name
-  const  role=session?.user?.roles
-  
+  const user = session?.user?.name;
+  const role = session?.user?.roles;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  
-  
+  const [totalSalesPrice, setTotalSalesPrice] = useState(0);
+  const [totalMonthSalesPrice, setTotalMonthSalesPrice] = useState(0);
+  const [totalWeekSalesPrice, setTotalWeekSalesPrice] = useState(0);
+
   useEffect(() => {
     setIsLoading(true);
     setError(null);
-  
+
     let apiUrl = '/api/sales';
     if (role !== "admin") {
       apiUrl = `/api/sales?saler=${user}`;
     }
-  
+
     axios.get(apiUrl)
       .then((response) => {
         if (response.data && Array.isArray(response.data)) {
           setSales(response.data);
-          console.log(response.data);
+
+          // Calculate total price of all sales
+          const totalSales = response.data.reduce((total, sale) => total + sale.price, 0);
+          setTotalSalesPrice(totalSales);
+
+          // Calculate total price of sales this month
+          const currentDate = new Date();
+          const currentMonthSales = response.data.filter(
+            sale =>
+              new Date(sale.createdAt).getMonth() === currentDate.getMonth() &&
+              new Date(sale.createdAt).getFullYear() === currentDate.getFullYear()
+          );
+          const totalMonthSales = currentMonthSales.reduce(
+            (total, sale) => total + sale.price,
+            0
+          );
+          setTotalMonthSalesPrice(totalMonthSales);
+
+          // Calculate total price of sales this week
+          const currentWeekStart = new Date();
+          currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay());
+          const currentWeekEnd = new Date();
+          currentWeekEnd.setDate(currentWeekEnd.getDate() + (6 - currentWeekEnd.getDay()));
+          const currentWeekSales = response.data.filter(
+            sale =>
+              new Date(sale.createdAt) >= currentWeekStart &&
+              new Date(sale.createdAt) <= currentWeekEnd
+          );
+          const totalWeekSales = currentWeekSales.reduce(
+            (total, sale) => total + sale.price,
+            0
+          );
+          setTotalWeekSalesPrice(totalWeekSales);
         } else {
           console.error("Invalid data format in the API response.");
         }
@@ -70,8 +102,8 @@ export default function Report() {
       sortable: true,
       format: (row) => `$${row.price.toFixed(2)}`,
     },
-    {                                      
-      name: 'Date',                 
+    {
+      name: 'Date',
       selector: 'createdAt',
       sortable: true,
       format: (row) => new Date(row.createdAt).toLocaleString(),
@@ -79,8 +111,7 @@ export default function Report() {
     {
       name: 'View',
       cell: (row) => (
-        <Link href={`/sales/${row._id}`}    className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              >
+        <Link href={`/sales/${row._id}`} className="shadow m-2 bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
           View
         </Link>
       ),
@@ -94,25 +125,9 @@ export default function Report() {
     sale.saler.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Calculate total price of all sales
-  const totalSalesPrice = sales.reduce((total, sale) => total + sale.price, 0);
-
-  // Calculate total price of sales this month
-  const currentDate = new Date();
-  const currentMonthSales = sales.filter(
-    sale =>
-      new Date(sale.createdAt).getMonth() === currentDate.getMonth() &&
-      new Date(sale.createdAt).getFullYear() === currentDate.getFullYear()
-  );
-  const totalMonthSalesPrice = currentMonthSales.reduce(
-    (total, sale) => total + sale.price,
-    0
-  );
-
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
-     
         <div className="p-4">
           <input
             type="text"
@@ -130,8 +145,9 @@ export default function Report() {
             striped
             dense
           />
-       <div className="flex justify-between">
+          <div className="flex justify-between">
             <div>Total price of all sales: ${totalSalesPrice.toFixed(2)}</div>
+            <div>Total price of sales this week: ${totalWeekSalesPrice.toFixed(2)}</div>
             <div>Total price of sales this month: ${totalMonthSalesPrice.toFixed(2)}</div>
           </div>
         </div>

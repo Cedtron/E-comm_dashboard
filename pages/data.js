@@ -2,6 +2,8 @@ import { BsFillFileEarmarkSpreadsheetFill } from "react-icons/bs";
 import Layout from '@/components/Layout'
 import React, { useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
+import axios from "axios";
+import Dataform from "@/components/dataform";
 
 export default function Data() {
   const [selectedSchema, setSelectedSchema] = useState(''); // State to store the selected schema
@@ -11,26 +13,39 @@ export default function Data() {
     setSelectedSchema(e.target.value);
   };
 
-  const uploadfiles = (e) => {
-    // Handle file upload and data insertion into the selected schema here
-    // You may need to use a library like 'xlsx' to process Excel files
+  const uploadfiles = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
-      // Process the Excel file data (e.g., using 'xlsx' library)
-      // Insert the data into the selected MongoDB schema (replace with your MongoDB code)
-      if (selectedSchema) {
-        console.log(`Uploading file to schema: ${selectedSchema}`);
-        // Insert your MongoDB insertion logic here
-      } else {
-        console.log("No schema selected. Please select a schema.");
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('selectedSchema', selectedSchema);
+
+      try {
+        // Send the file and selected schema to the backend API
+        await axios.post('/api/upload', formData);
+
+        // Clear the file input after successful upload
+        e.target.value = null;
+      } catch (error) {
+        console.error('Error uploading file:', error);
       }
     }
+  };
+
+  const updatefilesOrder = (newOrder) => {
+    // Use the new order to update the files state
+    setFiles(newOrder);
   };
 
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
+      <div class="grid grid-cols-2 gap-2">
+
+      <div class="col-2 md:col-span-6">
         <div className="p-4">
+          <h3>Data upload</h3>
           <form>
             <label>
               Add excel file
@@ -40,9 +55,9 @@ export default function Data() {
               <select onChange={handleSchemaChange} value={selectedSchema}>
                 <option value="">Select Schema</option>
                 {/* Fetch and map your MongoDB schema names as options here */}
-                <option value="schema1">Schema 1</option>
-                <option value="schema2">Schema 2</option>
-                {/* Add more options for other schemas */}
+                <option value="sales">Sales</option>
+                <option value="products">Product</option>
+                <option value="User">Users</option>
               </select>
             </div>
             <ReactSortable
@@ -62,17 +77,24 @@ export default function Data() {
               </div>
               <input type="file" onChange={uploadfiles} className="hidden"/>
             </label>
-        
 
-          <button
-            type="submit"
-            className="bg-blue-400 rounded-md p-2 text-white w-1/5">
-            Upload
-          </button>
-         </form>
+            <button
+              type="submit"
+              className="bg-blue-400 rounded-md p-2 text-white w-1/5">
+              Upload
+            </button>
+          </form>
+        </div>
+        </div>
+
+         <div className="col-2 md:col-span-6">
+            <Dataform/>
+         </div>
+
+
+
+</div>
       </div>
-    </div>
-  </Layout>
-)
-
+    </Layout>
+  );
 }

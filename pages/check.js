@@ -147,8 +147,8 @@ export default function Check() {
                           >
                             <td className="whitespace-nowrap px-6 py-4">
                               <div className="shadow-md rounded-md">
-                                <div className="w-5 rounded-md">
-                                  <img src={product.images[0]} alt="" className="w-2/4 rounded-lg" />
+                                <div className="w-8 rounded-md">
+                                  <img src={product.images[0]} alt="" width="88" height="88" class="rounded-lg bg-slate-100" loading="lazy" />
                                 </div>
                                 {product.title}
                               </div>
@@ -199,7 +199,7 @@ export default function Check() {
                               <button onClick={() => saveEditedPrice(product._id)} className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4">Save</button>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
-        {((editedPrices[product._id] || product.price) * cartProducts.filter(id => id === product._id).length).toFixed(2)}
+        {((editedPrices[product._id] || product.price) * cartProducts.filter(id => id === product._id).length).toFixed(0)}
       </td>
                           </tr>
                         ))}
@@ -213,9 +213,7 @@ export default function Check() {
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-          <button className="shadow ml-2 h-10 px-6 font-semibold focus:shadow-outline focus:outline-none rounded-md bg-black text-white" onClick={checkout}>
+                 <button className="shadow ml-2 h-10  px-6 font-semibold focus:shadow-outline focus:outline-none rounded-md bg-black text-white" onClick={checkout}>
             Check out
           </button>
           <button
@@ -224,6 +222,9 @@ export default function Check() {
           >
             Empty Cart
           </button>
+            </div>
+          )}
+       
         </div>
       </div>
       <SweetAlert2 {...swalProps} />
