@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nextron",
-  "build": "next build",
-  "dev": "next dev",
+    "build": "next build",
+     "dev": "nextron --run-only",
     "build:mac": "nextron build --mac",
     "build:mac:universal": "nextron build --mac --universal",
     "build:linux": "nextron build --linux",

@@ -4,7 +4,8 @@ import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import SweetAlert2 from "react-sweetalert2";
-import html2pdf from "html2pdf.js"; // Make sure to import html2pdf if you plan to use it
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 import Layout from "@/components/Layout";
 
@@ -39,7 +40,7 @@ export default function Orderview() {
   const [order, setOrder] = useState(null);
   const { id } = router.query;
   const { enqueueSnackbar } = useSnackbar();
-
+  const [swalProps, setSwalProps] = useState({});
   useEffect(() => {
     if (id) {
       axios.get(`/api/orders?id=${id}`).then((response) => {
@@ -53,19 +54,17 @@ export default function Orderview() {
     const content = document.getElementById("pdf-content");
 
     if (content) {
-      const pdfOptions = {
-        margin: 10,
-        filename: "sales_report.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      };
+      const pdf = new jsPDF();
 
-      html2pdf().from(content).set(pdfOptions).outputPdf().then((pdf) => {
-        // Save or display the PDF as needed
+      html2canvas(content).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        pdf.addImage(imgData, "PNG", 0, 0, 210, 210);
+        pdf.save("sales_report.pdf");
+        setIsLoading(false); // Set loading state to false after download
       });
     } else {
       enqueueSnackbar("PDF content not found.", { variant: "error" });
+      setIsLoading(false); // Set loading state to false if content not found
     }
   };
 
