@@ -49,13 +49,13 @@ export default function SaleProduct() {
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-4/6">
         <div className="bg-grey-darker p-4 text-white">
-          <h1 className="text-lg text-center">Sale</h1>
+          <h1 className="text-base font-semibold leading-7 text-gray-50">Sale</h1>
         </div>
         <div className="p-4">
         <div className="p-4" id="pdf-content">
-          <h4> Items sold</h4>
+          <h4 className="text-base font-semibold leading-7 text-gray-900"> Items sold</h4>
           <table className="table text-grey-darkest">
-            <thead className="bg-grey-dark text-white text-normal">
+            <thead className="bg-cyan-400 text-white text-normal">
               <tr>
                 <th scope="col">Products</th>
                 <th scope="col">Qty</th>
@@ -72,11 +72,11 @@ export default function SaleProduct() {
               ))}
             </tbody>
           </table>
-          <h4> Sold by: </h4>
+          <div className="text-base font-semibold leading-7 text-gray-900"> Sold by: </div>
           {sales?.saler}
-          <h4> Total:</h4>
+          <div className="text-base font-semibold leading-7 text-gray-900"> Total:</div>
           {sales?.price}
-          <h4>Date:</h4>
+          <div className="text-base font-semibold leading-7 text-gray-900">Date:</div>
           {sales?.esawa ? new Date(sales.esawa).toLocaleDateString() : ''}
           </div>
          

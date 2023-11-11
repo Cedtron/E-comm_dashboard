@@ -5,7 +5,6 @@ import Layout from '@/components/Layout';
 import { useSession } from 'next-auth/react';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { useSnackbar } from 'notistack';
-import Link from 'next/link';
 
 
 export default function Check() {
@@ -125,54 +124,25 @@ export default function Check() {
   return (
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
-        <div className="p-2 text-black -mt-2.5 -mb-2.5 -ml-2.5 -mr-2.5">
-
-
-
-
-        <div className="h-screen bg-gray-100">
-        <div className="bg-grey-darker p-4 text-white mb-2">
-    <h1 className="text-center text-2xl font-bold">Items</h1>
-    </div>
-    {!cartProducts?.length && <div>
-      <div className='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-lg shadow-xl'>
-        <div className='max-w-md mx-auto space-y-6'>
-            
-                <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-                    <div className="mx-auto max-w-screen-sm text-center">
-                        <h4 className="mb-4 text-5xl tracking-tight font-extrabold lg:text-6xl text-red-600 dark:text-red-500">Empty!</h4>
-                        <p className="mb-4 text-3xl tracking-tight font-bold text-black md:text-4xl">Your checkout is empty</p>
-                        <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">Click the button to return to products </p>
-                        <Link
-          className="shadow bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
-          href={'/sale'}
-        >
-          Back
-        </Link>
-                    </div>   
-                </div>
-
-        </div>
-    </div>
-      
-      
-      </div>}
+        <div className="p-4 text-black -mt-2.5 -mb-2.5 -ml-2.5 -mr-2.5">
+          <h2>Cart</h2>
+          {!cartProducts?.length && <div>Your cart is empty</div>}
           {products?.length > 0 && (
-
-    <div className=" max-w-6xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-      <div className="rounded-lg md:w-2/3">
-
-      <table className="table-auto rounded-md">
-                      <thead>
-                        <tr className="bg-blue-600 text-center">
-                          <th className="p-2 ">Product</th>
+            <div className="flex flex-col">
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
+                    <table className="table-auto mt-2">
+                      <thead className="bg-blue-500 text-white">
+                        <tr>
+                          <th className="p-2 w-1/5">Product</th>
                           <th className="p-2">Quantity</th>
                           <th className="p-2">Original Price</th>
                           <th className="p-2">Edit the Price item</th>
                           <th className="p-2">Total Price</th>
                         </tr>
                       </thead>
-                      <tbody className="">
+                      <tbody>
                         {products.map(product => (
                           <tr
                             key={product._id}
@@ -181,7 +151,7 @@ export default function Check() {
                             <td className="whitespace-nowrap px-6 py-4">
                           
                            
-          <img src={product.images[0]} alt="product-image" class="w-2/4 rounded-lg sm:w-40"loading="lazy"  />
+          <img src={product.images[0]} alt="product-image" class="w-1/12 rounded-lg sm:w-40"loading="lazy"  />
           <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
             <div class="mt-5 sm:mt-0">
               <h2 class="text-lg font-bold text-gray-900">{product.title}</h2>
@@ -197,7 +167,7 @@ export default function Check() {
                 
                               <button
                                 onClick={() => lessOfThisProduct(product._id)}
-                                className="cursor-pointer rounded-l bg-gray-400 p-2 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                                className="cursor-pointer rounded-l bg-gray-100 p-2 duration-100 hover:bg-blue-500 hover:text-blue-50"
                               >
                                 -
                               </button>
@@ -215,7 +185,7 @@ export default function Check() {
                               </label>
                               <button
                                 onClick={() => moreOfThisProduct(product._id)}
-                                className={`cursor-pointer rounded-r bg-gray-400 p-2 duration-100 hover:bg-blue-500 hover:text-blue-50 ${
+                                className={`cursor-pointer rounded-r bg-gray-100 p-2 duration-100 hover:bg-blue-500 hover:text-blue-50 ${
                                   cartProducts.filter(id => id === product._id).length >= product.stock
                                     ? 'hidden'
                                     : ''
@@ -244,39 +214,43 @@ export default function Check() {
                             </td>
                             <td className="whitespace-nowrap px-6 py-4">
         {((editedPrices[product._id] || product.price) * cartProducts.filter(id => id === product._id).length).toFixed(0)}
-       </td>
+      </td>
                           </tr>
                         ))}
-                       
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td>
+                          <div class="flex m-4 justify-between">
+          <p class="text-lg font-bold">Total:</p>
+          <div class="">
+            <p class="mb-1 text-lg font-bold">  {total}</p>
+            
+          </div>
+          </div>
+                            
+                            </td>
+                        </tr>
                       </tbody>
                     </table>
-        
-      </div>
-      
-      <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+                  </div>
+                </div>
+              </div>
+                 <button className="shadow ml-2 h-10  px-6 font-semibold focus:shadow-outline focus:outline-none rounded-md bg-black text-white" onClick={checkout}>
+            Check out
+          </button>
+          <button
+            onClick={emptyCart}
+            className="bg-red-600 hover.bg-red-400 focus.shadow-outline focus.outline-none text-white font.bold py-2 px-4 rounded m-4"
+          >
+            Empty Cart
+          </button>
+            </div>
+          )}
        
-        <hr className="my-4" />
-        <h4 className="text-lg font-bold">Total price of all products</h4>
-        <hr class="my-4"/>
-        <div className="flex justify-between">
-                    
-          <div className="mx-auto">
-            <p className="mb-1 text-lg font-bold">{total}</p>
-            <p className="text-sm text-gray-700"> UGX</p>
-          </div>
         </div>
-        <button className="mt-6 w-full  text-white  rounded-md bg-blue-500 p-2 font-medium text-blue-50 hover:bg-blue-600" onClick={checkout}>Check out</button>
-        <button className="mt-6 w-full  text-white  rounded-md bg-red-500 p-2 font-medium text-red-50 hover:bg-red-600" onClick={emptyCart}>Empty Cart</button>
       </div>
-    </div>
- 
-
-  )}
-
    
-        </div>
-      </div>
-      </div>
     </Layout>
   );
 }

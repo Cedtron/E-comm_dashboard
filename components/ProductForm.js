@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
-import SweetAlert2 from "react-sweetalert2";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { useSnackbar } from 'notistack';
 import Spinner from "@/components/Spinner";
 import {ReactSortable} from "react-sortablejs";
@@ -60,11 +60,15 @@ text:'Done',
       //create
       await axios.post('/api/products', data)
       .then((data) => {
-               setSwalProps({
-          show:true,
-          title: 'Product successfully Added',
-    text:'Done',
+         
+
+        Swal.fire({
+          title: 'Success',
+          text: 'Product successfully Added',
+          icon: 'success',
+          confirmButtonText: 'Done'
         })
+
       }) .catch((error) => {
         enqueueSnackbar(error, { variant: 'error' });
       });
@@ -114,20 +118,27 @@ text:'Done',
   return (
     <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
 
-    <div className="p-4 text-black  -mt-2.5 -mb-2.5 -ml-2.5 -mr-2.5">
-      <form onSubmit={saveProduct}>
-        <label>Product name</label>
-        <div className="space-x-2 >*">
+    <div className="p-4 text-black m-2">
+      <form onSubmit={saveProduct}  className="mx-auto">
+      <div className="sm:col-span-3 my-4">
+              <label htmlFor="Product-name" className="block text-sm font-medium leading-6 text-gray-900">
+        Product name</label>
+        <div className="mt-2">
         <input
-        className=" w-1/2 h-8 p-2 rounded-md"
+         className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           type="text"
           placeholder="product name"
           value={title}
           onChange={ev => setTitle(ev.target.value)}/>
           </div>
-        <label>Category</label>
-        <div className="space-x-2 >*">
-        <select value={category} className=" w-1/2 h-10 p-2 rounded-md"
+           </div>
+
+           <div className="sm:col-span-3 my-4">
+              <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">
+        Category</label>
+        <div className="mt-2"> 
+        <select value={category}
+           className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 onChange={ev => setCategory(ev.target.value)}>
           <option value="">Choose Categories</option>
           {categories.length > 0 && categories.map(c => (
@@ -136,9 +147,11 @@ text:'Done',
         </select>
         {propertiesToFill.length > 0 && propertiesToFill.map(p => (
           <div key={p.name} className="">
-            <label>{p.name[0].toUpperCase()+p.name.substring(1)}</label>
+            <label className="block text-sm font-medium leading-6 text-gray-900">{p.name[0].toUpperCase()+p.name.substring(1)}</label>
             <div>
-              <select value={productProperties[p.name]} className=" w-1/2 h-8 p-2 rounded-md"
+              <select value={productProperties[p.name]} 
+                className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+          
                       onChange={ev =>
                         setProductProp(p.name,ev.target.value)
                       }
@@ -151,55 +164,82 @@ text:'Done',
           </div>
         ))}
         </div>
+        </div>
        
-        <label>Brand</label>
-        <div className="space-x-2 >*">
+        <div className="sm:col-span-3 my-4">
+              <label htmlFor="brand" className="block text-sm font-medium leading-6 text-gray-900">
+       Brand</label>
+       <div className="mt-2">
         <input
-        className=" w-1/2 h-8 p-2 rounded-md"
+         className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           type="text"
           placeholder="Brand name"
           value={brand}
           onChange={ev => setBrand(ev.target.value)}/>
           </div>
+          </div>
 
-        <label>Description</label>
-        <div className="space-x-2 >*"> <textarea
-        className=" w-1/2 h-14 p-2 rounded-md"
+          <div className="col-span-full my-4">
+
+          <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
+            Description</label>
+            <div className="mt-2">
+               <textarea
+        rows={5}
+        className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+
           placeholder="description"
           value={description}
           onChange={ev => setDescription(ev.target.value)}
         />
         </div>
-        <label>Price (in USD)</label>
-        <div className="space-x-2 >*">
+        </div>
+
+        <div className="sm:col-span-3 my-4">
+              <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
+      Price (in USD)</label>
+      <div className="mt-2">
         <input
-        className=" w-1/2 h-8 p-2 rounded-md"
+          className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        
           type="number" placeholder="price"
           value={price}
           onChange={ev => setPrice(ev.target.value)}
         />
        </div>
-       <label>Stock</label>
-        <div className="space-x-2 >*">
+       </div>
+
+       <div className="sm:col-span-3 my-4">
+              <label htmlFor="stock" className="block text-sm font-medium leading-6 text-gray-900">
+        Stock</label>
+        <div className="mt-2">
         <input
-        className=" w-1/2 h-8 p-2 rounded-md"
+          className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        
           type="number"
           placeholder="Stock number"
           value={stock}
           onChange={ev => setStock(ev.target.value)}/>
           </div>
+          </div>
 
-          <label>Color</label>
-        <div className="space-x-2 >*">
+          <div className="sm:col-span-3 my-4">
+              <label htmlFor="color" className="block text-sm font-medium leading-6 text-gray-900">
+        Color</label>
+        <div className="mt-2">
         <input
-        className=" w-1/2 h-8 p-2 rounded-md"
+          className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        
           type="text"
           placeholder="Product colors"
           value={color}
           onChange={ev => setColor(ev.target.value)}/>
           </div>
+          </div>
 
-        <label>
+          <div className="sm:col-span-3 my-4">
+              <label htmlFor="photos" className="block text-sm font-medium leading-6 text-gray-900">
+        
           Photos
         </label>
         <div className="mb-2 flex flex-wrap gap-1">
@@ -228,6 +268,7 @@ text:'Done',
             <input type="file" onChange={uploadImages} className="hidden"/>
           </label>
         </div>
+        </div>
         <button
           type="submit"
           className="bg-blue-400 rounded-md p-2 text-white w-1/5">
@@ -235,7 +276,7 @@ text:'Done',
         </button>
       </form>
       </div>
-      <SweetAlert2 {...swalProps}/>
+ 
       </div>
   );
 }

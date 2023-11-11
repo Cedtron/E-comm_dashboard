@@ -7,7 +7,7 @@ export default async function handle(req, res) {
     
     // Validate input (assuming 'ids' is an array of valid ObjectId strings)
     const ids = Array.isArray(req.body.ids) ? req.body.ids : [];
-console.log(ids)
+// console.log(ids)
     // Fetch products based on the provided ids
     const products = await Product.find({ _id: { $in: ids } });
 

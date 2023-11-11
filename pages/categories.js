@@ -4,9 +4,9 @@ import axios from "axios";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import DataTable from 'react-data-table-component';
-import { withSwal } from 'react-sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-function Categories({swal}) {
+export default function Categories({swal}) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [name,setName] = useState('');
   const [parentCategory,setParentCategory] = useState('');
@@ -80,7 +80,7 @@ function Categories({swal}) {
     );
   }
   function deleteCategory(category){
-    swal.fire({
+    Swal.fire({
       title: 'Are you sure?',
       text: `Do you want to delete ${category.name}?`,
       showCancelButton: true,
@@ -126,10 +126,10 @@ function Categories({swal}) {
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
         <div className="bg-grey-darker p-4 text-white">
-          <h1 className="text-lg text-center">Categories</h1>
+          <h1 className="text-base font-semibold leading-7 text-gray-50">Categories</h1>
         </div>
         <div className="mx-auto p-4">
-      <label>
+      <label className="block text-sm font-medium leading-6 text-gray-900 p-2">
         {editedCategory
           ? `Edit category ${editedCategory.name}`
           : 'Create new category'}
@@ -137,12 +137,14 @@ function Categories({swal}) {
       <form onSubmit={saveCategory}>
         <div className="flex gap-1">
           <input
-           className="w-1/2 h-8 p-2 rounded-md shadow-md"
+            className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             type="text"
             placeholder={'Category name'}
             onChange={ev => setName(ev.target.value)}
             value={name}/>
           <select
+            className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+             
                   onChange={ev => setParentCategory(ev.target.value)}
                   value={parentCategory}>
             <option value="">No parent category</option>
@@ -152,24 +154,24 @@ function Categories({swal}) {
           </select>
         </div>
         <div className="mb-2">
-          <label className="block">Properties</label>
+        {/* <label className="block text-sm font-medium leading-6 text-gray-900 p-2">Properties</label>
           <button
             onClick={addProperty}
             type="button"
             className="shadow m-2 bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             >
             Add new property
-          </button>
+          </button> */}
           {properties.length > 0 && properties.map((property,index) => (
             <div key={property.name} className="flex gap-1 mb-2">
               <input type="text"
                      value={property.name}
-                     className="w-1/2 h-8 p-2 rounded-md shadow-md"
-                     onChange={ev => handlePropertyNameChange(index,property,ev.target.value)}
+                     className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          onChange={ev => handlePropertyNameChange(index,property,ev.target.value)}
                      placeholder="property name (example: color)"/>
               <input type="text"
-                      className="w-1/2 h-8 p-2 rounded-md shadow-md"
-                     onChange={ev =>
+                    className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={ev =>
                        handlePropertyValuesChange(
                          index,
                          property,ev.target.value
@@ -222,6 +224,3 @@ function Categories({swal}) {
   );
 }
 
-export default withSwal(({swal}, ref) => (
-  <Categories swal={swal} />
-));

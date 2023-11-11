@@ -20,7 +20,7 @@ export default function Products() {
   const columns = [
     {
       name: 'Product image',
-      cell: (row) => <img src={row.image} alt="" className="w-2/4 rounded-lg" />,
+      cell: (row) => <img src={row.image} alt="" className="w-2/4 rounded-lg m-2" />,
     },
     { name: 'Product name', selector: 'title' },
     { name: 'Category', selector: 'category' },
@@ -30,17 +30,19 @@ export default function Products() {
       cell: (row) => <Color colors={row.color.split(',')} />,
     },
     { name: 'Price', selector: 'price' },
-    { name: 'Rating', selector: 'rating' },
+    // { name: 'Rating', selector: 'rating' },
     {
       name: 'Actions',
       cell: (row) => (
-        <div>
-          <Link className="btn-default" href={`/products/edit/${row._id}`}>
+        <div >
+          <Link  type="button"  className="shadow m-2 bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+           href={`/products/edit/${row._id}`}>
             <FaEdit />
             Edit
           </Link>
-          <Link className="btn-red" href={`/products/delete/${row._id}`}>
-            <RiDeleteBin5Fill className="mx-auto text-red-600" />
+          <Link type="button"  className="shadow m-2 bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          href={`/products/delete/${row._id}`}>
+            <RiDeleteBin5Fill />
             Delete
           </Link>
         </div>
@@ -84,8 +86,8 @@ export default function Products() {
             <input
               type="text"
               placeholder="Search"
-              className="p-2"
-              value={searchText}
+              className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                   value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
           }
