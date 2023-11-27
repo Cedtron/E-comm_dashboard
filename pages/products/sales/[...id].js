@@ -4,8 +4,7 @@ import { useSession} from "next-auth/react"
 import { useSnackbar } from 'notistack';
 import {useEffect, useState} from "react";
 import axios from "axios";
-import { RiDeleteBin5Fill } from 'react-icons/ri';
-import SweetAlert2 from "react-sweetalert2";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default function SaleProduct() {
   const router = useRouter();
@@ -19,7 +18,7 @@ export default function SaleProduct() {
   const [stockx,setStockx] = useState();
   const [stocks,setStocks] = useState();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [swalProps, setSwalProps]= useState({});
+
   const {id} = router.query;
   useEffect(() => {
     if (!id) {
@@ -71,11 +70,15 @@ async function checkout(){
     // router.push(redirect || '../');
     inputf.value="";
     btn.classList.add("invisible")
-    setSwalProps({
-      show:true,
-      title: 'Sale successfully completed',
-text:'Done',
+   
+    Swal.fire({
+      title: 'Success',
+      text: 'Sale successfully completed',
+      icon: 'success',
+      confirmButtonText: 'Done'
     })
+
+
   })
 
   .catch((error) => {
@@ -146,7 +149,7 @@ Total price :{totalPrice}
  </div>
       
       </div>
-      <SweetAlert2 {...swalProps}/>
+    
     </Layout>
   );
 }

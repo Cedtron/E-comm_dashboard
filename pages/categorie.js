@@ -5,9 +5,9 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import DataTable from 'react-data-table-component';
 import { useForm, Controller } from 'react-hook-form';
-import { withSwal } from 'react-sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-function Categories({swal}) {
+export default function Categories({swal}) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const { handleSubmit, control, setValue, reset, fields, append, remove } = useForm({
@@ -217,6 +217,3 @@ function Categories({swal}) {
     </Layout>
   );
 }
-export default withSwal(({swal}, ref) => (
-  <Categories swal={swal} />
-));

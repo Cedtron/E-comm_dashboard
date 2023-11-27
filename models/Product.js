@@ -5,6 +5,7 @@ const ProductSchema = new Schema({
   description: String,
 brand: {type:String, required:true}, 
   price: {type: Number, required: true},
+  costprice: {type: Number, required: true},
   color: {type:String, required:true},
   stock: {type: Number, required: true},
   rating: {type: Number},

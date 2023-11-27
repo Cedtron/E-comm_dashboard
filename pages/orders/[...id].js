@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import SweetAlert2 from "react-sweetalert2";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -40,7 +39,6 @@ export default function Orderview() {
   const [order, setOrder] = useState(null);
   const { id } = router.query;
   const { enqueueSnackbar } = useSnackbar();
-  const [swalProps, setSwalProps] = useState({});
   useEffect(() => {
     if (id) {
       axios.get(`/api/orders?id=${id}`).then((response) => {
@@ -134,7 +132,7 @@ export default function Orderview() {
           </button>
         </div>
       </div>
-      <SweetAlert2 {...swalProps} />
+
     </Layout>
   );
 }
