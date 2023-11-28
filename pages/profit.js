@@ -2,8 +2,8 @@ import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import DataTable from "react-data-table-component";
 import Profitstab from "@/components/profitstripe";
+import SalesTable from "@/components/ptable";
 
 export default function Home() {
 
@@ -21,7 +21,9 @@ useEffect(() => {
   setError(null);
 
   let apiUrl = '/api/sales';
-
+  if (role !== "admin") {
+    apiUrl = `/api/sales?saler=${user}`;
+  }
 
   axios.get(apiUrl)
     .then((response) => {
@@ -42,90 +44,6 @@ useEffect(() => {
 }, [role, user]);
 
 
-const SalesTable = ({ salesData }) => {
-  const [selectedMonth, setSelectedMonth] = useState('all');
-
-  const handleMonthChange = (event) => {
-    setSelectedMonth(event.target.value);
-  };
-
-  const filterSalesByMonth = (sales, selectedMonth) => {
-    if (selectedMonth === 'all') {
-      return sales;
-    }
-
-    const selectedMonthData = sales.filter(
-      (item) => new Date(item.esawa).getMonth() === parseInt(selectedMonth, 10)
-    );
-
-    return selectedMonthData;
-  };
-
-  const calculateTotalPrice = (data) => {
-    return data.reduce((total, item) => total + item.price, 0);
-  };
-
-  const calculateTotalCostPrice = (data) => {
-    return data.reduce((total, item) => total + item.line_items.price_data.product_data.costprice, 0);
-  };
-
-  const calculateProfit = (data) => {
-    return calculateTotalPrice(data) - calculateTotalCostPrice(data);
-  };
-
-  const calculateLoss = (data) => {
-    return calculateTotalCostPrice(data) - calculateTotalPrice(data);
-  };
-
-  const calculatePercentage = (profitOrLoss, totalRevenue) => {
-    return totalRevenue !== 0 ? ((profitOrLoss / totalRevenue) * 100).toFixed(2) : 0;
-  };
-
-  const generateTableData = (sales) => {
-    return sales.map((item) => ({
-      ...item,
-      Profit: calculateProfit([item]),
-      Loss: calculateLoss([item]),
-      Percentage: calculatePercentage(calculateProfit([item]), calculateTotalPrice([item])),
-    }));
-  };
-
-  const filteredSales = filterSalesByMonth(salesData, selectedMonth);
-  const tableData = generateTableData(filteredSales);
-
-  const columns = [
-    {
-      name: 'Name of the saler',
-      selector: 'saler',
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: 'Date',
-      selector: 'esawa',
-      sortable: true,
-      format: (row) => new Date(row.esawa).toLocaleDateString(),
-    },
-    {
-      name: 'Profit',
-      selector: 'Profit',
-      sortable: true,
-      cell: (row) => (
-        <span style={{ color: 'green' }}>{`$${parseFloat(row.Profit).toFixed(2)}`}</span>
-      ),
-    },
-    {
-      name: 'Loss',
-      selector: 'Loss',
-      sortable: true,
-      cell: (row) => <span style={{ color: 'red' }}>{`$${parseFloat(row.Loss).toFixed(2)}`}</span>,
-    },
-    {
-      name: 'Percentage',
-      selector: 'Percentage',
-      sortable: true,
-    },
-  ];
 
   return (
     <Layout>
@@ -138,30 +56,9 @@ const SalesTable = ({ salesData }) => {
             </div>
             
             <div className="table-responsive">
-            <div>
-      <label>
-        Select Month:
-        <select value={selectedMonth} onChange={handleMonthChange}>
-          <option value="all">All Months</option>
-          <option value="0">January</option>
-          <option value="1">February</option>
-          <option value="2">March</option>
-        
-        </select>
-      </label>
-
-      <DataTable
-        title="Sales Report"
-        columns={columns}
-        data={tableData}
-        highlightOnHover
-        pointerOnHover
-        pagination
-        paginationPerPage={6}
-        fixedHeader
-        sortServer // Enable server-side sorting
-      />
-    </div>
+              <SalesTable 
+                 salesData={sales}
+              />
             </div>
           </div>
         </div>
