@@ -46,7 +46,7 @@ export default function Register() {
       }
     } catch (error) {
       // Handle any network or server error
-      console.error('Registration error:', error);
+      console.error('Registration error ⚠️:', error);
 
  enqueueSnackbar(error, { variant: 'Registration error⚠️' });
 
