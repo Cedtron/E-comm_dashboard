@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Profitstab from "@/components/profitstripe";
 import SalesTable from "@/components/ptable";
+import Summer from "@/components/summer"; // Check the correct path for this import
 
 export default function Home() {
 
