@@ -3,6 +3,7 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { User } from '@/models/User';
+import { Log } from '@/models/log';
 import bcrypt from 'bcrypt';
 import { mongooseConnect } from '@/lib/mongoose';
 import { MongoClient } from 'mongodb'; // Import MongoClient from 'mongodb'
@@ -46,6 +47,18 @@ export const authOptions = {
             roles: roles,
           };
       
+                 
+          const { name, email } = user;
+        
+          const currentTime = new Date();
+        
+          await Log.create({
+            name,
+            email,
+            time: currentTime,
+          });
+               
+
           return userData;
     
         } catch (error) {
