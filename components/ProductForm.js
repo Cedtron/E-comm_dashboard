@@ -54,7 +54,7 @@ export default function ProductForm({
 text:'Done',
  })
 }) .catch((error) => {
- enqueueSnackbar(error, { variant: 'error' });
+ enqueueSnackbar('Product Update failed ' + error, { variant: error });
 });
     } else { 
       //create
@@ -70,7 +70,7 @@ text:'Done',
         })
 
       }) .catch((error) => {
-        enqueueSnackbar(error, { variant: 'error' });
+        enqueueSnackbar('Product adding failed ' + error, { variant: error })
       });
     }
     setGoToProducts(true);
