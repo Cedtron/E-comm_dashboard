@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'; // Import the jsonwebtoken library
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     await mongooseConnect();
-
+    let role="admin"
     const { name, email, password } = req.body;
 
     try {
@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       const newUser = new User({
         name,
         email,
+        role,
         password: hashedPassword,
       });
 

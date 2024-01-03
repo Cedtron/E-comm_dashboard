@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 
@@ -12,17 +13,16 @@ export default function Register() {
     getValues,
   } = useForm();
 
+const router = useRouter();
+
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   async function onRegister(data) {
     if (data.password !== data.confirmPassword) {
-      //console.log('Passwords do not match');
-
-      enqueueSnackbar(error, { variant: 'Passwords do not match' });
-
- return; 
+      enqueueSnackbar('Passwords do not match', { variant: 'error' });
+      return;
     }
-     //console.log(data)
+  
     try {
       // Make an API request to register the user
       const response = await axios.post('/api/signup', {
@@ -32,27 +32,19 @@ export default function Register() {
       });
   
       if (response.status === 201) {
-       
-        //console.log('User registered successfully');
-
- enqueueSnackbar(success, { variant: 'User registered successfully👍' });
-
+        router.push('/');
+        enqueueSnackbar('User registered successfully👍', { variant: 'success' });
       } else {
-       
-       // console.log('Registration failed');
-
- enqueueSnackbar(error, { variant: 'Registration failed⚠️' });
-
+        // Handle registration failure
+        enqueueSnackbar('Registration failed⚠️', { variant: 'error' });
       }
     } catch (error) {
       // Handle any network or server error
-      console.error('Registration error ⚠️:', error);
-
- enqueueSnackbar(error, { variant: 'Registration error⚠️' });
-
+      //console.error('Registration error ⚠️:', error);
+      enqueueSnackbar('Registration error⚠️', { variant: 'error' });
     }
   }
-  
+
   // Function to handle Google Sign-In
   async function signIn() {
     try {

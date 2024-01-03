@@ -62,6 +62,12 @@ const isAdmin = session?.user?.roles === "admin";
               </Link>
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
+              <Link href={'/profit'} className={pathname.includes('/categories') ? activeLink : inactiveLink}>
+                <BiShoppingBag />
+                Profit
+              </Link>
+            </li>
+            <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/settings'} className={pathname.includes('/settings') ? activeLink : inactiveLink}>
             <FiSettings />
             Settings

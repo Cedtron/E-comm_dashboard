@@ -77,6 +77,7 @@ useEffect(() => {
   return (
     <Layout>
       <Stripe salesData={sales}/>
+    
       <div className="flex flex-row">
         <div className="w-3/6 m-2 p-2">
           <div className="bg-white text-black rounded shadow-lg w-full">
