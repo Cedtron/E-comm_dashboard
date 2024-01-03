@@ -6,7 +6,7 @@ import { BiShoppingBag } from 'react-icons/bi';
 import { BsCart4 } from 'react-icons/bs';
 import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { useSession } from "next-auth/react";
-import { GrMoney } from "react-icons/gr";
+import { TbReportMoney } from "react-icons/tb";
 import { BsBoxes } from "react-icons/bs";
 import { CiShoppingTag } from "react-icons/ci";
 
@@ -66,7 +66,7 @@ const isAdmin = session?.user?.roles === "admin";
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/profit'} className={pathname.includes('/categories') ? activeLink : inactiveLink}>
-              <GrMoney />
+              <TbReportMoney />
                 Profit
               </Link>
             </li>
