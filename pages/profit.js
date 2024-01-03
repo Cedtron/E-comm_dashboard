@@ -56,7 +56,7 @@ useEffect(() => {
               <div className="font-bold text-xl">Sold items</div>
             </div>
             
-<Summer salesData={sales} />
+             <Summer salesData={sales} />
 
             <div className="table-responsive">
               <SalesTable 

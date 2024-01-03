@@ -6,6 +6,9 @@ import { BiShoppingBag } from 'react-icons/bi';
 import { BsCart4 } from 'react-icons/bs';
 import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { useSession } from "next-auth/react";
+import { GrMoney } from "react-icons/gr";
+import { BsBoxes } from "react-icons/bs";
+import { CiShoppingTag } from "react-icons/ci";
 
 export default function Nav() {
   const inactiveLink = 'font-sans font-hairline hover:font-normal text-md text-nav-item no-underline';
@@ -37,7 +40,7 @@ const isAdmin = session?.user?.roles === "admin";
         </li>
         <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/orders'} className={pathname.includes('/orders') ? activeLink : inactiveLink}>
-            <BsCart4 />
+            <BsBoxes />
             Orders
           </Link>
         </li>
@@ -51,7 +54,7 @@ const isAdmin = session?.user?.roles === "admin";
           <>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/products'} className={pathname.includes('/products') ? activeLink : inactiveLink}>
-                <BsShop />
+              <CiShoppingTag />
                 Products
               </Link>
             </li>
@@ -63,7 +66,7 @@ const isAdmin = session?.user?.roles === "admin";
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/profit'} className={pathname.includes('/categories') ? activeLink : inactiveLink}>
-                <BiShoppingBag />
+              <GrMoney />
                 Profit
               </Link>
             </li>
