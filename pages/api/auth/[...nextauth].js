@@ -39,20 +39,20 @@ export const authOptions = {
           const passwordsMatch = await bcrypt.compare(password, user.password);
     
           if (!passwordsMatch) {
-            console.log('Passwords do not match');
+            
             return null;
           }
     
-          const { name, email } = user;
-          console.log(`Hello ${name}, email: ${email}`);
+          // const { name, email } = user;
+          // console.log(`Hello ${name}, email: ${email}`);
     
-          const currentTime = new Date();
+          // const currentTime = new Date();
     
-          await Log.create({
-            name,
-            email,
-            esawa: currentTime,
-          });
+          // await Log.create({
+          //   name,
+          //   email,
+          //   esawa: currentTime,
+          // });
     
           const roles = user.roles;
           const userData = {
