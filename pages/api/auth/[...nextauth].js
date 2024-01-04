@@ -48,15 +48,15 @@ export const authOptions = {
           };
       
                  
-          const { name, email } = user;
+          // const { name, email } = user;
         
-          const currentTime = new Date();
+          // const currentTime = new Date();
         
-          await Log.create({
-            name,
-            email,
-            time: currentTime,
-          });
+          // await Log.create({
+          //   name,
+          //   email,
+          //   time: currentTime,
+          // });
                
 
           return userData;
