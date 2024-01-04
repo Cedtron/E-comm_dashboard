@@ -40,7 +40,17 @@ export const authOptions = {
           if (!passwordsMatch) {
             return null;
           }
-      
+
+                const { name, email } = user;
+        
+          const currentTime = new Date();
+        
+          await Log.create({
+            name,
+            email,
+            time: currentTime,
+          });
+          
           const roles = user.roles; // Change this to 'user.roles'
           const userData = {
             user: user,
@@ -48,15 +58,7 @@ export const authOptions = {
           };
       
                  
-          // const { name, email } = user;
-        
-          // const currentTime = new Date();
-        
-          // await Log.create({
-          //   name,
-          //   email,
-          //   time: currentTime,
-          // });
+
                
 
           return userData;
