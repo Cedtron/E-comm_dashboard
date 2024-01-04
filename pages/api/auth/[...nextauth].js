@@ -30,31 +30,42 @@ export const authOptions = {
         try {
           await mongooseConnect();
           const user = await User.findOne({ email });
-      
+    
           if (!user) {
+            console.log('User not found');
             return null;
           }
-      
+    
           const passwordsMatch = await bcrypt.compare(password, user.password);
-      
+    
           if (!passwordsMatch) {
+            console.log('Passwords do not match');
             return null;
           }
-      
-          const roles = user.roles; // Change this to 'user.roles'
+    
+          const { name, email } = user;
+          console.log(`Hello ${name}, email: ${email}`);
+    
+          const currentTime = new Date();
+          await mongooseConnect();
+          await Log.create({
+            name,
+            email,
+            esawa: currentTime,
+          });
+    
+          const roles = user.roles;
           const userData = {
-            user: user,
-            roles: roles,
+            user,
+            roles,
           };
-      
-                 
-        
-               
-
+    
+          console.log('Authentication successful');
           return userData;
     
         } catch (error) {
-          console.log('Error: ', error);
+          console.error('Error during authentication:', error);
+          return null;
         }
       },
     }),
