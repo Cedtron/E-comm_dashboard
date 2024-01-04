@@ -42,7 +42,7 @@ export const authOptions = {
           }
 
                 const { name, email } = user;
-        
+        console.log(`hello ${name} the ${email}`)
           const currentTime = new Date();
         
           await Log.create({
@@ -50,14 +50,14 @@ export const authOptions = {
             email,
             time: currentTime,
           });
-          
+
+
           const roles = user.roles; // Change this to 'user.roles'
           const userData = {
             user: user,
             roles: roles,
           };
-      
-                 
+                
 
                
 
