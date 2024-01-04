@@ -47,7 +47,7 @@ export const authOptions = {
           console.log(`Hello ${name}, email: ${email}`);
     
           const currentTime = new Date();
-          await mongooseConnect();
+          
           await Log.create({
             name,
             email,
