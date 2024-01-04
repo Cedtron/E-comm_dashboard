@@ -51,7 +51,7 @@ export const authOptions = {
           await Log.create({
             name,
             email,
-            time: currentTime,
+            esawa: currentTime,
           });
     
           const roles = user.roles;
