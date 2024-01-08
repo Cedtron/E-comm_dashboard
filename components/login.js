@@ -65,11 +65,11 @@ export default function Login() {
                     {isButtonClicked ? 'Logging in...' : 'Login'}
                   </button>
 
-                  <a className="inline-block right-0 align-baseline font-bold text-sm text-500 hover:text-blue-800" href="/forgot">
+                  <a className="inline-block right-0 align-baseline font-bold text-sm text-500 text-gray-700 hover:text-blue-600" href="/forgot">
                     Forgot Password?
                   </a>
                 </div>
-                <a className="inline-block right-0 align-baseline font-bold text-sm text-500 hover:text-blue-800" href="/signin">
+                <a className="inline-block right-0 align-baseline font-bold text-sm text-500 text-gray-700 hover:text-blue-600" href="/signin">
                   Not registered?
                 </a>
               </form>
