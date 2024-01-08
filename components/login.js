@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function Login() {
@@ -9,6 +9,8 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
+  const [isButtonClicked, setButtonClicked] = useState(false);
+
   async function onLogin(data) {
     const res = await signIn("credentials", {
       email: data.emali,
@@ -17,7 +19,7 @@ export default function Login() {
       callbackUrl: "/",
     }); 
 
-    
+    setButtonClicked(true);
  
   }
 
@@ -54,8 +56,15 @@ export default function Login() {
                   {errors.password && <span className="text-red-500">Password is required</span>}
                 </div>
                 <div className="mt-4 items-center justify-between">
-                  //make this buuton be clicked once then disable
-                  <button className="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded w-full" type="submit">Login</button>
+                  
+                <button
+                    className={`px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded w-full`}
+                    type="submit"
+                    disabled={isButtonClicked}
+                  >
+                    {isButtonClicked ? 'Logging in...' : 'Login'}
+                  </button>
+
                   <a className="inline-block right-0 align-baseline font-bold text-sm text-500 hover:text-blue-800" href="/forgot">
                     Forgot Password?
                   </a>
