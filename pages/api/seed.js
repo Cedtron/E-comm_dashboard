@@ -1,6 +1,6 @@
 const express = require('express');
 const { mongooseConnect } = require('@/lib/mongoose');
-const data = require('@/lib/data');
+const data = require('@/lib/mongocon');
 const User = require('@/models/User');
 
 const app = express();
