@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import DataTable from "react-data-table-component";
+import Table from "@/components/table";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
@@ -227,14 +227,10 @@ export default function Expend({ swal }) {
             <p>Weekly Total: {weeklyTotal}</p>
           </div>
 
-          <DataTable
-            title="Categories"
-            columns={columns}
-            data={expend} // Update to use 'expend' state
-            pagination
-            highlightOnHover
-            striped
-          />
+
+       <Table columns={columns}  data={expend}  title="Categories" showSearch={true} itemsPerPage={10} />
+  
+
         </div>
       </div>
     </Layout>

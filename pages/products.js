@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 import Link from 'next/link';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
-import DataTable from 'react-data-table-component';
+import Table from "@/components/table";
 import Color from '@/components/color';
 import { CSVLink } from 'react-easy-export';
 
@@ -82,24 +82,11 @@ export default function Products() {
             Export CSV
           </CSVLink>
         </div>
-        <DataTable
-          title="Products"
-          columns={columns}
-          data={filteredData}
-          highlightOnHover
-          striped
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              placeholder="Search"
-              className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                   value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-          }
-          pagination
-        />
+
+
+<Table columns={columns} data={filteredData} title="Products" showSearch={true} itemsPerPage={10} />
+  
+
      <div className="p-4">Total number of products: {totalProducts}</div>
       </div>
     </Layout>

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Ostripe from "@/components/ostripe"; 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import DataTable from "react-data-table-component";
+import Table from "@/components/table";
 import Osummer from "@/components/osummer";
 
 export default function Home() {
@@ -64,28 +64,11 @@ export default function Home() {
               <div className="font-bold text-xl">Sold items</div>
             </div>
             <div className="table-responsive">
-              <DataTable
-                columns={columns}
-                data={orders}
-                highlightOnHover
-                pointerOnHover
-                pagination
-                paginationPerPage={6}
-                fixedHeader
-                sortServer // Enable server-side sorting
-                onSort={(column, direction) => {
-                  // Handle the sorting here
-                  const sortedOrders = [...orders].sort((a, b) => {
-                    if (direction === 'asc') {
-                      return a[column.selector] > b[column.selector] ? 1 : -1;
-                    } else {
-                      return a[column.selector] < b[column.selector] ? 1 : -1;
-                    }
-                  });
-                  setOrders(sortedOrders);
-                }}
-                filterServer
-              />
+           
+
+<Table columns={columns} data={orders} title="Orders" showSearch={true} itemsPerPage={10} />
+  
+
             </div>
           </div>
         </div>

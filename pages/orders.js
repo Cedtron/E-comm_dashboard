@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '@/components/Layout';
-import DataTable from 'react-data-table-component';
+import Table from "@/components/table";
 import Link from 'next/link';
 import { CSVLink } from 'react-easy-export';
 
@@ -109,15 +109,9 @@ export default function OrdersPage() {
             Export CSV
           </CSVLink>
         </div>
-        <DataTable
-          title="Orders"
-          columns={columns}
-          data={tableData}
-          pagination
-          highlightOnHover
-          striped
-          dense
-        />
+     
+        <Table columns={columns} data={tableData} title="Orders" showSearch={true} itemsPerPage={10} />
+  
       </div>
     </Layout>
   );

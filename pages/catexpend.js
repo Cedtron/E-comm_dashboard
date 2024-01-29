@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
-import DataTable from 'react-data-table-component';
+import Table from "@/components/table";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default function Catexpend({swal}) {
@@ -195,15 +195,9 @@ export default function Catexpend({swal}) {
         </div>
       </form>
    
-       <DataTable
-       title="Expend Categories"
-       columns={columns}
-       data={categories}
-       pagination
-       highlightOnHover
-       striped
-     />
- 
+
+    <Table columns={columns} data={categories}  title="Expend Categories" showSearch={true} itemsPerPage={10} />
+  
  </div>
       </div>
     </Layout>

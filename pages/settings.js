@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DataTable from "react-data-table-component";
+import Table from "@/components/table";
 
 export default function User() {
   const [users, setUsers] = useState([]);
@@ -83,22 +83,9 @@ export default function User() {
         Activity Log
           </Link>
 
-          <input
-            type="text"
-            placeholder="Search by name or email"
-            value={searchQuery}
-            onChange={handleSearch}
-            className="border p-2 rounded w-full m-4"
-          />
-          <DataTable
-            title="Users"
-            columns={columns}
-            data={users}
-            pagination
-            highlightOnHover
-            striped
-            dense
-          />
+    
+<Table columns={columns} data={users} title="Users" showSearch={true} itemsPerPage={10} />
+  
         </div>
       </div>
     </Layout>

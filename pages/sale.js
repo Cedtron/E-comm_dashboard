@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import DataTable from "react-data-table-component";
+import Table from "@/components/table";
 import { FaCartPlus } from "react-icons/fa";
 import Link from "next/link";
 import { CartContext } from "@/components/context";
@@ -119,22 +119,9 @@ export default function Products() {
           Report
         </Link>
         <div className="p-4">
-          <input
-            type="text"
-            placeholder="Search by name, category, or color"
-            value={searchQuery}
-            onChange={handleSearch}
-            className="border p-2 rounded w-full"
-          />
-          <DataTable
-            title="Products"
-            columns={columns}
-            data={tableData}
-            pagination
-            highlightOnHover
-            striped
-            dense
-          />
+       
+          <Table columns={columns} data={tableData} title="Products" showSearch={true} itemsPerPage={10} />
+  
         </div>
       </div>
     </Layout>

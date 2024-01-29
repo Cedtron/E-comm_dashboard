@@ -3,7 +3,7 @@ import axios from 'axios';
 import Layout from '@/components/Layout';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
-import DataTable from 'react-data-table-component';
+import Table from "@/components/table";
 import { useForm, Controller } from 'react-hook-form';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
@@ -211,6 +211,10 @@ export default function Categories({swal}) {
           highlightOnHover
           striped
         />
+
+<Table columns={columns}  data={categories} title="Categories" showSearch={true} itemsPerPage={10} />
+  
+
       </div>
         </div>
       </div>

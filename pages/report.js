@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DataTable from "react-data-table-component";
+import Table from "@/components/table";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { CSVDownload, CSVLink } from 'react-easy-export';
@@ -149,15 +149,11 @@ export default function Report() {
           >
             Export CSV
           </CSVLink>
-          <DataTable
-            title="Sales Report"
-            columns={columns}
-            data={filteredSales}
-            pagination
-            highlightOnHover
-            striped
-            dense
-          />
+        
+
+<Table columns={columns} data={filteredSales} title="Sales Report" showSearch={true} itemsPerPage={10} />
+  
+
           <div className="flex justify-between">
             <div>Total price of all sales: ${totalSalesPrice.toFixed(2)}</div>
             <div>Total price of sales this week: ${totalWeekSalesPrice.toFixed(2)}</div>

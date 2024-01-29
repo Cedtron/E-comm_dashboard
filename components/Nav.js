@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { TbReportMoney } from "react-icons/tb";
 import { BsBoxes } from "react-icons/bs";
 import { CiShoppingTag } from "react-icons/ci";
+import { AiOutlineStock } from "react-icons/ai";
 
 export default function Nav() {
   const inactiveLink = 'font-sans font-hairline hover:font-normal text-md text-nav-item no-underline';
@@ -62,6 +63,12 @@ const isAdmin = session?.user?.roles === "admin";
               <Link href={'/categories'} className={pathname.includes('/categories') ? activeLink : inactiveLink}>
                 <BiShoppingBag />
                 Categories
+              </Link>
+            </li>
+            <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
+              <Link href={'/expend'} className={pathname.includes('/expend') ? activeLink : inactiveLink}>
+              <AiOutlineStock />
+                Expenditure
               </Link>
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
