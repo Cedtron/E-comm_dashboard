@@ -6,6 +6,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 import Layout from "@/components/Layout";
 
 const schema = yup.object().shape({
@@ -18,7 +19,7 @@ export default function Expend({ swal }) {
   const [expend, setExpend] = useState([]);
   const [catexpend, setCatexpend] = useState([]);
   const { handleSubmit, control, reset, setValue, formState } = useForm({
-    resolver: yup.resolver(schema),
+    resolver: yupResolver(schema), 
   });
 
   useEffect(() => {
@@ -122,18 +123,13 @@ export default function Expend({ swal }) {
     });
   }
 
-  // Calculate daily and weekly totals
   const dailyTotal = expend.reduce(
-    (total, entry) =>
-      total +
-      // ( ? entry.amount : 0),
+    (total, entry) => total + (entry.amount ? entry.amount : 0),
     0
   );
-
+  
   const weeklyTotal = expend.reduce(
-    (total, entry) =>
-      total +
-      // ( ? entry.amount : 0),
+    (total, entry) => total + (entry.amount ? entry.amount : 0),
     0
   );
 
@@ -179,7 +175,7 @@ export default function Expend({ swal }) {
       <input
         {...field}
         className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        type="text"
+        type="date"
         placeholder="Date"
       />
     )}
@@ -222,10 +218,33 @@ export default function Expend({ swal }) {
             </div>
           </form>
 
-          <div className="mb-4">
-            <p>Daily Total: {dailyTotal}</p>
-            <p>Weekly Total: {weeklyTotal}</p>
+         
+
+          <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+          <div className="shadow-lg bg-green-400 border-l-8 rounded-md hover:bg-green-500 border-green-500 mb-2 p-2 md:w-1/4 mx-2">
+            <div className="p-4 flex flex-col">
+              <a href="#" className="no-underline text-white text-2xl">
+              {dailyTotal}
+              </a>
+              <a href="#" className="no-underline text-white text-lg">
+              Daily Total
+              </a>
+            </div>
           </div>
+
+          <div className="shadow-lg bg-green-400 border-l-8 rounded-md hover:bg-green-500 border-green-500 mb-2 p-2 md:w-1/4 mx-2">
+            <div className="p-4 flex flex-col">
+              <a href="#" className="no-underline text-white text-2xl">
+              {weeklyTotal}
+              </a>
+              <a href="#" className="no-underline text-white text-lg">
+              Weekly Total
+              </a>
+            </div>
+          </div>
+
+          </div>
+          
 
 
        <Table columns={columns}  data={expend}  title="Categories" showSearch={true} itemsPerPage={10} />
