@@ -1,4 +1,4 @@
-import { Expend } from "@/models/expend";
+import { Catexpend } from "@/models/catexpend";
 import { mongooseConnect } from "@/lib/mongoose";
 
 export default async function handle(req, res) {
@@ -6,12 +6,12 @@ export default async function handle(req, res) {
   await mongooseConnect();
 
   if (method === 'GET') {
-    res.json(await Expend.find());
+    res.json(await Catexpend.find());
   }
 
   if (method === 'POST') {
     const { name, properties } = req.body;
-    const expendDoc = await Expend.create({
+    const expendDoc = await Catexpend.create({
       name,
       properties,
     });
@@ -20,7 +20,7 @@ export default async function handle(req, res) {
 
   if (method === 'PUT') {
     const { name, properties, _id } = req.body;
-    const expendDoc = await Expend.findByIdAndUpdate(_id, {
+    const expendDoc = await Catexpend.findByIdAndUpdate(_id, {
       name,
       properties,
     }, { new: true }); // Set { new: true } to return the modified document
@@ -29,7 +29,7 @@ export default async function handle(req, res) {
 
   if (method === 'DELETE') {
     const { _id } = req.query;
-    await Expend.findByIdAndDelete(_id);
+    await Catexpend.findByIdAndDelete(_id);
     res.json('ok');
   }
 }
