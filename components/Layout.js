@@ -41,10 +41,11 @@ export default function Layout({children}) {
 
                  
                     <Image
+                    className='mx-2'
   src={Logo}
     width={50}
     height={50}
-    alt="Picture of the author"
+    alt="logo"
   />
                 </div>
                 <div className="p-1 flex flex-row items-center">
@@ -54,7 +55,7 @@ export default function Layout({children}) {
   {session?.user?.image ? (
     <img src={session?.user?.image} alt="" className="w-6 h-6" />
   ) : (
-    <div className="rounded-full bg-blue-500 text-white w-6 h-6 m-2 flex items-center justify-center">
+    <div className="rounded-full bg-blue-500 text-white w-6 h-6 m-2 flex uppercase font-bold items-center justify-center">
       {session?.user?.name ? session?.user?.name[0] : ''}
     </div>
   )}
