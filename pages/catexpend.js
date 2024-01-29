@@ -59,7 +59,7 @@ export default function Catexpend({swal}) {
       await axios.post('/api/catexpend', data);
     }
     setName('');
-    setParentCategory('');
+    
     setProperties([]);
     fetchCategories();
   }

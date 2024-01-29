@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import Table from "@/components/table";
+import Link from 'next/link';
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
@@ -141,6 +142,39 @@ export default function Expend({ swal }) {
             Categories
           </h1>
         </div>
+
+        <div className="flex flex-1 py-2 place-content-center flex-col md:flex-row lg:flex-row mx-2">
+          <div className="shadow-lg bg-green-400 border-l-8 rounded-md hover:bg-green-500 border-green-500 mb-2 p-2 md:w-1/4 mx-2">
+            <div className="p-4 flex flex-col">
+              <a href="#" className="no-underline text-white text-2xl">
+              {dailyTotal}
+              </a>
+              <a href="#" className="no-underline text-white text-lg">
+              Daily Total
+              </a>
+            </div>
+          </div>
+
+          <div className="shadow-lg bg-green-400 border-l-8 rounded-md hover:bg-green-500 border-green-500 mb-2 p-2 md:w-1/4 mx-2">
+            <div className="p-4 flex flex-col">
+              <a href="#" className="no-underline text-white text-2xl">
+              {weeklyTotal}
+              </a>
+              <a href="#" className="no-underline text-white text-lg">
+              Weekly Total
+              </a>
+            </div>
+          </div>
+
+          </div>
+
+          <Link
+            className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
+            href={'/catexpend'}
+          >
+            Add new Expend category
+          </Link>
+
         <div className="mx-auto p-4">
           <form onSubmit={handleSubmit(saveCategory)}>
           <div className="flex gap-1">
@@ -152,7 +186,7 @@ export default function Expend({ swal }) {
         {...field}
         className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         type="text"
-        placeholder="Description"
+        placeholder="Exp Category"
       />
     )}
   />
@@ -220,30 +254,7 @@ export default function Expend({ swal }) {
 
          
 
-          <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
-          <div className="shadow-lg bg-green-400 border-l-8 rounded-md hover:bg-green-500 border-green-500 mb-2 p-2 md:w-1/4 mx-2">
-            <div className="p-4 flex flex-col">
-              <a href="#" className="no-underline text-white text-2xl">
-              {dailyTotal}
-              </a>
-              <a href="#" className="no-underline text-white text-lg">
-              Daily Total
-              </a>
-            </div>
-          </div>
 
-          <div className="shadow-lg bg-green-400 border-l-8 rounded-md hover:bg-green-500 border-green-500 mb-2 p-2 md:w-1/4 mx-2">
-            <div className="p-4 flex flex-col">
-              <a href="#" className="no-underline text-white text-2xl">
-              {weeklyTotal}
-              </a>
-              <a href="#" className="no-underline text-white text-lg">
-              Weekly Total
-              </a>
-            </div>
-          </div>
-
-          </div>
           
 
 
