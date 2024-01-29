@@ -1,4 +1,4 @@
-import { Catexpend } from "@/models/catexpend";
+import { Catexpend } from "@/models/Catexpend";
 import { mongooseConnect } from "@/lib/mongoose";
 
 export default async function handle(req, res) {
