@@ -6,8 +6,8 @@ import axios from "axios";
 import Dataform from "@/components/dataform";
 
 export default function Data() {
-  const [selectedSchema, setSelectedSchema] = useState(''); // State to store the selected schema
-  const [files, setFiles] = useState([]); // State to store uploaded files
+  const [selectedSchema, setSelectedSchema] = useState(''); 
+  const [files, setFiles] = useState([]); 
 
   const handleSchemaChange = (e) => {
     setSelectedSchema(e.target.value);

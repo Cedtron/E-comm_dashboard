@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Profitstab from "@/components/profitstripe";
 import SalesTable from "@/components/ptable";
-// Check the correct path for this import
+import PChart from "@/components/pchart";
 
 export default function Home() {
 
@@ -56,14 +56,16 @@ useEffect(() => {
               <div className="font-bold text-xl">Sold items</div>
             </div>
             
-           
+           <select>
+            
+           </select>
 
             <div className="table-responsive">
               <SalesTable 
                  salesData={sales}
               />
 
-<PChart salesData={salesData} selectedMonth={selectedMonth} />
+<PChart salesData={sales} selectedMonth={selectedMonth} />
             </div>
           </div>
         </div>

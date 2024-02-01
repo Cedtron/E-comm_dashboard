@@ -11,8 +11,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Layout from "@/components/Layout";
 
 const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  // Add validation for other fields as needed
+  expcategory: yup.string().required("Expenditure category is required"),
+  amount: yup.number().required("Amount is required").positive("Amount must be positive"),
+  date: yup.date().required("Date is required"),
+  description: yup.string().required("Description is required"),
 });
 
 export default function Expend({ swal }) {
@@ -20,7 +22,7 @@ export default function Expend({ swal }) {
   const [expend, setExpend] = useState([]);
   const [catexpend, setCatexpend] = useState([]);
   const { handleSubmit, control, reset, setValue, formState } = useForm({
-    resolver: yupResolver(schema), 
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -42,15 +44,16 @@ export default function Expend({ swal }) {
 
   const columns = [
     {
+      name: " Category",
+      selector: "expcategory",
+      sortable: true,
+    }, 
+    {
       name: " Description",
       selector: "description",
       sortable: true,
     },
-    {
-      name: " Category",
-      selector: "category",
-      sortable: true,
-    },
+   
     {
       name: " Amount",
       selector: "amount",
@@ -60,6 +63,13 @@ export default function Expend({ swal }) {
       name: " Date",
       selector: "date",
       sortable: true,
+      cell: (row) => {
+        const date = new Date(row.date);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      },
     },
     {
       name: "Action",
@@ -82,8 +92,10 @@ export default function Expend({ swal }) {
     },
   ];
 
-  async function saveCategory(data) {
+  const saveCategory = async (data) => {
     try {
+      formState.isSubmitting && formState.isSubmitting(true);
+
       if (editedCategory) {
         data._id = editedCategory._id;
         await axios.put("/api/expend", data);
@@ -92,17 +104,21 @@ export default function Expend({ swal }) {
         await axios.post("/api/expend", data);
       }
 
-      reset();
+      reset(); // Reset the form after submission
       fetchExpend();
     } catch (error) {
-      // Handle error
       console.error("Error saving category:", error);
+    } finally {
+      formState.isSubmitting && formState.isSubmitting(false);
     }
-  }
+  };
 
   function editCategory(category) {
     setEditedCategory(category);
-    setValue("name", category.name);
+    setValue("expcategory", category.expcategory);
+    setValue("amount", category.amount);
+    setValue("date", category.date.substring(0, 10)); 
+    setValue("description", category.description);
     // Set values for other fields as needed
   }
 
@@ -133,6 +149,11 @@ export default function Expend({ swal }) {
     (total, entry) => total + (entry.amount ? entry.amount : 0),
     0
   );
+
+  const onCancel = () => {
+    setEditedCategory(null);
+    reset(); 
+  };
 
   return (
     <Layout>
@@ -178,18 +199,25 @@ export default function Expend({ swal }) {
         <div className="mx-auto p-4">
           <form onSubmit={handleSubmit(saveCategory)}>
           <div className="flex gap-1">
-  <Controller
-    name="name"
-    control={control}
-    render={({ field, fieldState }) => (
-      <input
-        {...field}
-        className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        type="text"
-        placeholder="Exp Category"
-      />
-    )}
-  />
+    <Controller
+              name="expcategory"
+              control={control}
+              render={({ field, fieldState }) => (
+                <select
+                  className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  {...field}
+                  disabled={editedCategory !== null}
+                >
+                  <option value="">Expenditure category</option>
+                  {catexpend.length > 0 &&
+                    catexpend.map((category) => (
+                      <option key={category._id} value={category.name}>
+                        {category.name}
+                      </option>
+                    ))}
+                </select>
+              )}
+            />
   <Controller
     name="amount"
     control={control}
@@ -227,38 +255,32 @@ export default function Expend({ swal }) {
     )}
   />
 </div>
-            <div className="mb-2">
-              {/* Additional input fields for amount, date, description go here */}
-            </div>
-            <div className="flex gap-1">
-              {editedCategory && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditedCategory(null);
-                    reset();
-                  }}
-                  className="shadow bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                >
-                  Cancel
-                </button>
-              )}
+
+<div className="flex gap-1 mt-2">
+            {editedCategory && (
               <button
-                type="submit"
-                className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                type="button"
+                onClick={onCancel} 
+                className="shadow bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               >
-                Save
+                Cancel
               </button>
-            </div>
+            )}
+            <button
+              type="submit"
+              className={`shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ${
+                formState.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              disabled={formState.isSubmitting}
+            >
+              {formState.isSubmitting ? 'Saving...' : 'Save'}
+            </button>
+          </div>
           </form>
 
          
 
-
-          
-
-
-       <Table columns={columns}  data={expend}  title="Categories" showSearch={true} itemsPerPage={10} />
+       <Table columns={columns}  data={expend}  title="Expenditure" showSearch={true} itemsPerPage={10} />
   
 
         </div>

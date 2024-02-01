@@ -10,9 +10,9 @@ export default async function handle(req, res) {
   }
  
   if (method === 'POST') {
-    const { category, amount, date, description } = req.body;
+    const { expcategory, amount, date, description } = req.body;
     const expendDoc = await Expend.create({
-      category,
+      expcategory,
       amount,
       date,
       description,
@@ -21,9 +21,9 @@ export default async function handle(req, res) {
   }
 
   if (method === 'PUT') {
-    const { category, amount, date, description, _id } = req.body;
+    const { expcategory, amount, date, description, _id } = req.body;
     const expendDoc = await Expend.updateOne({ _id }, {
-      category,
+      expcategory,
       amount,
       date,
       description,

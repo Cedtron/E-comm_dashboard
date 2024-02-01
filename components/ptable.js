@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import DataTable from 'react-data-table-component';
-import { CSVDownload } from 'react-easy-export';
+import { CSVDownload } from 'react-csv';
+import Table from "@/components/table";
 
 const SalesTable = ({ salesData }) => {
   const [selectedMonth, setSelectedMonth] = useState('all');
-   const [isCSVReady, setCSVReady] = useState(false);
-
 
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
@@ -135,19 +133,11 @@ const SalesTable = ({ salesData }) => {
         headers={Object.keys(tableData[0])} 
       />
 
-      <DataTable
-        title="Sales Report"
-        columns={columns}
-        data={tableData}
-        highlightOnHover
-        pointerOnHover
-        pagination
-        paginationPerPage={6}
-        fixedHeader
-        sortServer
-        subHeader
-        subHeaderAlign="right"
-      />
+   
+
+<Table columns={columns}  data={tableData}  title="Sales Report" showSearch={true} itemsPerPage={5} />
+  
+
     </div>
   );
 };

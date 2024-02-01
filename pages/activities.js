@@ -28,6 +28,7 @@ export default function User() {
       name: "Time",
       selector: "esawa",
       sortable: true,
+      format: (row) => new Date(row.createdAt).toLocaleString(),
     },
   
   ];

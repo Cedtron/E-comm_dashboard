@@ -2,7 +2,7 @@ import {model, models, Schema} from "mongoose";
 
 const ExpendSchema = new Schema({
 
-      category: String,
+      expcategory: String,
       amount: Number,
       date: Date,
       description: String

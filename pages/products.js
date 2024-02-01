@@ -6,7 +6,7 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import Table from "@/components/table";
 import Color from '@/components/color';
-import { CSVLink } from 'react-easy-export';
+import { CSVLink } from 'react-csv';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -21,7 +21,7 @@ export default function Products() {
   const columns = [
     {
       name: 'Product image',
-      cell: (row) => <img src={row.image} alt="" className="w-2/4 rounded-lg m-2" />,
+      cell: (row) => <img src={row.image} alt="" className="prod-img rounded-lg m-2" />,
     },
     { name: 'Product name', selector: 'title' },
     { name: 'Category', selector: 'category' },

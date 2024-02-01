@@ -3,7 +3,7 @@ import axios from 'axios';
 import Layout from '@/components/Layout';
 import Table from "@/components/table";
 import Link from 'next/link';
-import { CSVLink } from 'react-easy-export';
+import { CSVLink } from 'react-csv';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);

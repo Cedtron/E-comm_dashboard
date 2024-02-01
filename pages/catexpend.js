@@ -66,7 +66,7 @@ export default function Catexpend({swal}) {
   function editCategory(category){
     setEditedCategory(category);
     setName(category.name);
-    setParentCategory(category.parent?._id);
+
     setProperties(
       category.properties.map(({name,values}) => ({
       name,
@@ -181,7 +181,7 @@ export default function Catexpend({swal}) {
               onClick={() => {
                 setEditedCategory(null);
                 setName('');
-                setParentCategory('');
+               
                 setProperties([]);
               }}
               className="shadow bg-red-600 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Cancel</button>

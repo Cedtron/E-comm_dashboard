@@ -33,15 +33,7 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
     setCurrentPage(pageNumber);
   };
 
-  const handleSearch = () => {
-    const filtered = data.filter((row) =>
-      Object.values(row).some((value) =>
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-    setFilteredData(filtered);
-    setCurrentPage(1);
-  };
+
 
   const handleSkipToFirst = () => {
     setCurrentPage(1);
@@ -54,16 +46,18 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
 
   const renderTableHeader = () => {
     return (
-      <tr >
+      <tr>
         {columns.map((column) => (
-          <th className='px-6 py-3' key={column.name} onClick={() => column.sortable && handleSort(column.selector)}>
-            {column.name}
-            {column.sortable && (
-              <span>
-                {sortConfig.key === column.selector &&
-                  (sortConfig.direction === 'ascending' ? ' <FaCaretUp />' : ' <FaCaretDown />')}
-              </span>
-            )}
+          <th key={column.name} className={`px-6 py-3 ${column.headerClassName || ''}`}>
+            <div className="flex items-center">
+              {column.name}
+              {column.sortable && (
+                <span className="ml-2">
+                  {sortConfig.key === column.selector &&
+                    (sortConfig.direction === 'ascending' ? <FaCaretUp size="20px" /> : <FaCaretDown size="20px" />)}
+                </span>
+              )}
+            </div>
           </th>
         ))}
       </tr>
@@ -78,7 +72,12 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
     return currentItems.map((row, rowIndex) => (
       <tr key={rowIndex}>
         {columns.map((column, colIndex) => (
-          <td className="p-2 whitespace-wrap" key={colIndex}>
+          <td
+            className={`p-2 whitespace-wrap ${column.cellClassName ? column.cellClassName : ''} ${
+              column.conditionalClasses ? column.conditionalClasses(row) : ''
+            }`}
+            key={colIndex}
+          >
             {column.cell ? column.cell(row) : row[column.selector]}
           </td>
         ))}
@@ -89,43 +88,50 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
   return (
     <div>
       {title && <h2 className="text-xl text-center font-bold dark:text-white">{title}</h2>}
-     {showSearch && (
-  <div className="pb-4 bg-white dark:bg-gray-900">
-    <label htmlFor="table-search" className="sr-only">
-      Search
-    </label>
-    <div className="relative mt-1">
-      <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-        <svg
-          className="w-4 h-4 text-gray-500 dark:text-gray-400"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 20 20"
-        >
-          <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-          />
-        </svg>
-      </div>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      />
-    </div>
 
-    <div>
-      <button onClick={handleSearch}>Search</button>
-    </div>
-  </div>
-)}
+      {showSearch && (
+        <div className="pb-4 bg-white dark:bg-gray-900">
+          <label htmlFor="table-search" className="sr-only">
+            Search
+          </label>
+          <div className="relative mt-1">
+            <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                const filtered = data.filter((row) =>
+                  Object.values(row).some((value) =>
+                    value.toString().toLowerCase().includes(e.target.value.toLowerCase())
+                  )
+                );
+                setFilteredData(filtered);
+                setCurrentPage(1);
+              }}
+              className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
+        </div>
+      )}
+
       <table className="items-center w-full border-collapse">
         <thead className="text-xs text-gray-700  bg-prim dark:text-gray-400" >{renderTableHeader()}</thead>
         <tbody>{renderTableBody()}</tbody>

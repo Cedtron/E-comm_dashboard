@@ -28,6 +28,7 @@ body {
 
 /* loader */
 .bg-prim{ color: #F2F4EF!important;background-color: #3182CE!important;}
+.prod-img{width:5em;height:5em;}
 .loader-text{font-size:2em ;}
 .loader {
   width:12px;

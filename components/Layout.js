@@ -37,14 +37,16 @@ export default function Layout({children}) {
         <header className="bg-nav  object-top">
             <div className="flex justify-between">
                 <div className="p-1 mx-3 inline-flex items-center">
-                <button onClick={sidebarToggle}><HiMenu/></button>
+                <button onClick={sidebarToggle}><HiMenu color="white"/></button>
 
                  
                     <Image
                     className='mx-2'
   src={Logo}
-    width={50}
-    height={50}
+    width={0}
+    height={0}
+    priority
+    style={{ width: '40px', height: '40px' }}
     alt="logo"
   />
                 </div>

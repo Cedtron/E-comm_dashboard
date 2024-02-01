@@ -4,7 +4,7 @@ import axios from "axios";
 import Table from "@/components/table";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { CSVDownload, CSVLink } from 'react-easy-export';
+import {  CSVLink } from "react-csv";
 
 export default function Report() {
   const [sales, setSales] = useState([]);
