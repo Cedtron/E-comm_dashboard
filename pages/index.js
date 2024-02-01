@@ -61,10 +61,16 @@ useEffect(() => {
       sortable: true,
     },
     {
-      name: 'Date',
-      selector: 'esawa',
+      name: " Date",
+      selector: "esawa",
       sortable: true,
-      format: (row) => new Date(row.esawa).toLocaleDateString(),
+      cell: (row) => {
+        const date = new Date(row.date);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      },
     },
   ];
 
