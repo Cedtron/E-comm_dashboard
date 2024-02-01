@@ -16,6 +16,23 @@
   }
 }
 
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; 
+  -webkit-overflow-scrolling: touch; 
+  overflow-y: scroll; 
+  overflow-x: hidden; 
+  max-height: 100%; 
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent; 
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

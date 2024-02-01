@@ -88,7 +88,7 @@ export default function Table({ columns, data, title, showSearch, itemsPerPage =
       {title && <h2 className="text-xl text-center font-bold dark:text-white">{title}</h2>}
 
       {showSearch && (
-        <div className="pb-4 bg-white dark:bg-gray-900">
+        <div className="pb-4 m-2 w-full bg-white dark:bg-gray-900">
           <label htmlFor="table-search" className="sr-only">
             Search
           </label>

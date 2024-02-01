@@ -84,7 +84,7 @@ export default function Layout({children}) {
         <div className="flex flex-1">
 
         <main className="bg-gray-100 flex-1 p-3 overflow-hidden">
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-auto h-lvh ">
         {children}
 
 
