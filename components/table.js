@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {FaAngleDoubleLeft, FaAngleLeft,FaAngleRight,FaAngleDoubleRight ,FaCaretDown,FaCaretUp} from "react-icons/fa";
+import { FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight, FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
-export default function Table  ({ columns, data, title, showSearch, itemsPerPage = 5 })  {
+export default function Table({ columns, data, title, showSearch, itemsPerPage = 5 }) {
   const [filteredData, setFilteredData] = useState(data);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,8 +33,6 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
     setCurrentPage(pageNumber);
   };
 
-
-
   const handleSkipToFirst = () => {
     setCurrentPage(1);
   };
@@ -49,7 +47,7 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
       <tr>
         {columns.map((column) => (
           <th key={column.name} className={`px-6 py-3 ${column.headerClassName || ''}`}>
-            <div className="flex items-center">
+            <div className="flex items-center" onClick={() => column.sortable && handleSort(column.selector)}>
               {column.name}
               {column.sortable && (
                 <span className="ml-2">
@@ -133,50 +131,45 @@ export default function Table  ({ columns, data, title, showSearch, itemsPerPage
       )}
 
       <table className="items-center w-full border-collapse">
-        <thead className="text-xs text-gray-700  bg-prim dark:text-gray-400" >{renderTableHeader()}</thead>
+        <thead className="text-xs text-gray-700  bg-prim dark:text-gray-400">{renderTableHeader()}</thead>
         <tbody>{renderTableBody()}</tbody>
       </table>
 
-
-<div className="flex p-2 place-content-center">
-  <button
-    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-    onClick={handleSkipToFirst} 
-    disabled={currentPage === 1}
-  >
-    <FaAngleDoubleLeft />
-  </button>
-  <button
-    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-    onClick={() => handlePageChange(currentPage - 1)} 
-    disabled={currentPage === 1}
-  >
-    <FaAngleLeft />
-  </button>
-  <span
-    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-  >
-    {currentPage}
-  </span>
-  <button
-    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-    onClick={() => handlePageChange(currentPage + 1)}
-    disabled={currentPage * itemsPerPage >= filteredData.length}
-  >
-    <FaAngleRight />
-  </button>
-  <button
-    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-    onClick={handleSkipToLast}
-    disabled={currentPage === Math.ceil(filteredData.length / itemsPerPage)}
-  >
-    <FaAngleDoubleRight />
-  </button>
-</div>
-
-    
-    
+      <div className="flex p-2 place-content-center">
+        <button
+          className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={handleSkipToFirst}
+          disabled={currentPage === 1}
+        >
+          <FaAngleDoubleLeft />
+        </button>
+        <button
+          className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <FaAngleLeft />
+        </button>
+        <span
+          className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          {currentPage}
+        </span>
+        <button
+          className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage * itemsPerPage >= filteredData.length}
+        >
+          <FaAngleRight />
+        </button>
+        <button
+          className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          onClick={handleSkipToLast}
+          disabled={currentPage === Math.ceil(filteredData.length / itemsPerPage)}
+        >
+          <FaAngleDoubleRight />
+        </button>
+      </div>
     </div>
   );
-};
-
+}

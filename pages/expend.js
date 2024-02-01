@@ -21,7 +21,7 @@ export default function Expend({ swal }) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [expend, setExpend] = useState([]);
   const [catexpend, setCatexpend] = useState([]);
-  const { handleSubmit, control, reset, setValue, formState } = useForm({
+  const { handleSubmit, control, reset, setValue, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -199,61 +199,76 @@ export default function Expend({ swal }) {
         <div className="mx-auto p-4">
           <form onSubmit={handleSubmit(saveCategory)}>
           <div className="flex gap-1">
-    <Controller
-              name="expcategory"
-              control={control}
-              render={({ field, fieldState }) => (
-                <select
-                  className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  {...field}
-                  disabled={editedCategory !== null}
-                >
-                  <option value="">Expenditure category</option>
-                  {catexpend.length > 0 &&
-                    catexpend.map((category) => (
-                      <option key={category._id} value={category.name}>
-                        {category.name}
-                      </option>
-                    ))}
-                </select>
-              )}
-            />
+          <Controller
+          name="expcategory"
+          control={control}
+          render={({ field, fieldState }) => (
+            <div>
+              <select
+                className="block w-64 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                {...field}
+                disabled={editedCategory !== null}
+              >
+                <option value="">Expenditure category</option>
+                {catexpend.length > 0 &&
+                  catexpend.map((category) => (
+                    <option key={category._id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+              </select>
+              <p className="text-red-500 font-semibold">{errors.expcategory?.message}</p>
+            </div>
+          )}
+        />
   <Controller
     name="amount"
     control={control}
     render={({ field, fieldState }) => (
+      <div>
       <input
         {...field}
-        className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block w-64 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         type="text"
         placeholder="Amount"
-      />
+      /> 
+        <p className="text-red-500 font-semibold">{errors. amount?.message}</p>
+      </div>
     )}
   />
+   
   <Controller
     name="date"
     control={control}
     render={({ field, fieldState }) => (
+      <div>
       <input
         {...field}
-        className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block w-64 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         type="date"
         placeholder="Date"
       />
+       <p className="text-red-500 font-semibold">{errors. date?.message}</p>
+      </div>
     )}
   />
+   
   <Controller
     name="description"
     control={control}
     render={({ field, fieldState }) => (
+      <div>
       <input
         {...field}
-        className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="block w-64 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         type="text"
         placeholder="Description"
       />
+     <p className="text-red-500 font-semibold">{errors. description?.message}</p>  
+      </div>
     )}
   />
+  
 </div>
 
 <div className="flex gap-1 mt-2">
@@ -266,15 +281,15 @@ export default function Expend({ swal }) {
                 Cancel
               </button>
             )}
-            <button
-              type="submit"
-              className={`shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ${
-                formState.isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              disabled={formState.isSubmitting}
-            >
-              {formState.isSubmitting ? 'Saving...' : 'Save'}
-            </button>
+           <button
+          type="submit"
+          className={`shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ${
+            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Saving...' : 'Save'}
+        </button>
           </div>
           </form>
 
