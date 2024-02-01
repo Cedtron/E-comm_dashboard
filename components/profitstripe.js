@@ -53,7 +53,7 @@ export default function Profitstab(props) {
         <div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
-              ${weeklyProfit.toFixed(2)}
+              UGx {weeklyProfit.toFixed(2)}
             </a>
             <a href="#" className="no-underline text-white text-lg">
               Weekly Profits ({weeklyProfitPercentage}%)
@@ -64,7 +64,7 @@ export default function Profitstab(props) {
         <div className="shadow bg-info border-l-8 rounded-md hover-bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
-              ${weeklyLoss.toFixed(2)}
+              UGx {weeklyLoss.toFixed(2)}
             </a>
             <a href="#" className="no-underline text-white text-lg">
               Weekly Loss ({weeklyLossPercentage}%)
@@ -75,7 +75,7 @@ export default function Profitstab(props) {
         <div className="shadow bg-warning border-l-8 rounded-md hover-bg-warning-dark border-warning-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
-              ${monthlyProfit.toFixed(2)}
+              UGx {monthlyProfit.toFixed(2)}
             </a>
             <a href="#" className="no-underline text-white text-lg">
               Monthly Profits ({monthlyProfitPercentage}%)
@@ -86,7 +86,7 @@ export default function Profitstab(props) {
         <div className="shadow bg-success border-l-8 rounded-md hover-bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
-              ${monthlyLoss.toFixed(2)}
+              UGx {monthlyLoss.toFixed(2)}
             </a>
             <a href="#" className="no-underline text-white text-lg">
               Monthly Loss ({monthlyLossPercentage}%)

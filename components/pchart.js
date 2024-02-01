@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
 
 const PChart = ({ salesData, selectedMonth }) => {
   const [chartData, setChartData] = useState({
@@ -27,6 +28,24 @@ const PChart = ({ salesData, selectedMonth }) => {
         data: [],
       },
     ],
+    options: {
+      scales: {
+        x: {
+          type: 'index', // Use 'index' scale for non-numeric data
+          title: {
+            display: true,
+            text: 'Day',
+          },
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Profits',
+          },
+        },
+      },
+    },
   });
 
   useEffect(() => {

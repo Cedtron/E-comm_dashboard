@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import Table from "@/components/table";
 
 const SalesTable = ({ salesData }) => {
@@ -106,9 +106,13 @@ const SalesTable = ({ salesData }) => {
 
   return (
     <div>
-      <label>
-        Select Month:
-        <select value={selectedMonth} onChange={handleMonthChange}>
+
+      <div className='flex gap-4  place-content-center'>
+      <div className="basis-1/4 m-2">
+      <label className="text-center">
+        Select Month:</label>
+        <select value={selectedMonth} onChange={handleMonthChange} 
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option value="all">All Months</option>
           <option value="0">January</option>
           <option value="1">February</option>
@@ -123,19 +127,20 @@ const SalesTable = ({ salesData }) => {
           <option value="10">November</option>
           <option value="11">December</option>
         </select>
-      </label>
-
-           <button onClick={handleExport}>Export CSV</button>
-       <CSVDownload
-        data={tableData}
-        target="_blank"
-        filename="sales_report.csv" 
-        headers={Object.keys(tableData[0])} 
-      />
-
+      
+</div>
+      <CSVLink
+            data={tableData}
+            filename="sales_report.csv"
+            className="bg-green-500 text-white p-1 m-1 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:border-blue-300"
+          >
+            Export CSV
+          </CSVLink>
+       
+          </div>
    
 
-<Table columns={columns}  data={tableData}  title="Sales Report" showSearch={true} itemsPerPage={5} />
+<Table columns={columns}  data={tableData}  title="Profits Report" showSearch={true} itemsPerPage={5} />
   
 
     </div>
