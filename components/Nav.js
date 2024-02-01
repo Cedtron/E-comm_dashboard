@@ -35,52 +35,83 @@ const isAdmin = session?.user?.roles === "admin";
       <ul className="list-reset flex flex-col">
         <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/'} className={pathname === '/' ? activeLink : inactiveLink}>
-            <BsShop />
-            Dashboard
+          <div className="flex items-center"> 
+          <span className="mx-2">
+          <BsShop /> </span>
+            Dashboard </div> 
           </Link>
         </li>
         <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/orders'} className={pathname.includes('/orders') ? activeLink : inactiveLink}>
+          <div className="flex items-center"> 
+          <span className="mx-2">
             <BsBoxes />
+            </span>
             Orders
+            </div>
           </Link>
         </li>
         <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/sale'} className={pathname.includes('/sale') ? activeLink : inactiveLink}>
+          <div className="flex items-center"> 
+          <span className="mx-2">
             <BsCart4 />
+            </span>
             Sales
+            </div>
           </Link>
         </li>
         {isAdmin && (
           <>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/products'} className={pathname.includes('/products') ? activeLink : inactiveLink}>
+              <div className="flex items-center"> 
+          <span className="mx-2">
               <CiShoppingTag />
+              </span>
                 Products
+                </div>
               </Link>
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/categories'} className={pathname.includes('/categories') ? activeLink : inactiveLink}>
+              <div className="flex items-center"> 
+          <span className="mx-2">
                 <BiShoppingBag />
+                </span>
                 Categories
+                </div>
               </Link>
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/expend'} className={pathname.includes('/expend') ? activeLink : inactiveLink}>
-              <AiOutlineStock />
+             
+              <div className="flex items-center"> 
+          <span className="mx-2">
+             <AiOutlineStock />
+             </span>
                 Expenditure
+                </div>
               </Link>
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
               <Link href={'/profit'} className={pathname.includes('/profit') ? activeLink : inactiveLink}>
+              <div className="flex items-center"> 
+          <span className="mx-2">
               <TbReportMoney />
+              </span>
                 Profit
+                </div>
               </Link>
             </li>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/settings'} className={pathname.includes('/settings') ? activeLink : inactiveLink}>
-            <FiSettings />
+          <div className="flex items-center"> 
+          <span className="mx-2"> 
+          <FiSettings />
+          </span>
             Settings
+            </div>
           </Link>
         </li>
 
@@ -91,8 +122,12 @@ const isAdmin = session?.user?.roles === "admin";
        
         <li className="w-full pl-4 h-full py-3 px-2 ">
           <button onClick={logout} className="bg-white py-2 px-4 rounded-lg text-black w-full">
+          <div className="flex items-center"> 
+          <span className="mx-2">
             <FiLogOut />
+            </span>
             Logout
+            </div>
           </button>
         </li>
       </ul>
