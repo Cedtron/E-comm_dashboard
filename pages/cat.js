@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import swal from 'sweetalert2';
-import DataTable from 'react-data-table-component';
+
 
 export default function Cat(props) {
   async function deleteCategory(category) {
@@ -50,14 +50,7 @@ export default function Cat(props) {
   return (
     
       <div>
-        <DataTable
-          title="Categories"
-          columns={columns}
-          data={data}
-          pagination
-          highlightOnHover
-          striped
-        />
+        
       </div>
    
   );
