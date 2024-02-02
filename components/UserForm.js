@@ -11,6 +11,7 @@ export default function UserForm({
   name:existingName,
   email:existingEmail,
   password:existingPassword,
+  passhint:existingPasshint,
   role: existingRole,
 
   images:existingImages,
@@ -20,6 +21,7 @@ export default function UserForm({
   const [email,setEmail] = useState(existingEmail || '');
   const [role,setRole] = useState(existingRole || '');
   const [password,setPassword] = useState(existingPassword || '');
+  const [passhint,setPasshint] = useState(existingPasshint || '');
   const [goToUsers,setGoToUsers] = useState(false);
   const router = useRouter();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -28,7 +30,7 @@ export default function UserForm({
   async function saveUser(ev) {
     ev.preventDefault();
     const data = {
-      name,email,password,role
+      name,email,password,role,passhint
     };
     if (_id) {
       //update
@@ -143,6 +145,16 @@ export default function UserForm({
           </div>
           </div>
 
+          <div className="sm:col-span-3 my-4">
+              <label htmlFor="User-name" className="block text-sm font-medium leading-6 text-gray-900">Password Hint</label>
+          <div className="mt-2">
+        <input
+        className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          type="text"
+          placeholder="Password hint"
+          value={passhint}
+          onChange={ev => setPasshint(ev.target.value)}/>
+           </div></div>
 
         <button
           type="submit"

@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import { RiDeleteBin5Fill } from "react-icons/ri";
 import Layout from "@/components/Layout";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 import Invoice from "@/components/Invoice";
+import { PDFDownloadLink } from "@react-pdf-viewer/react-to-pdf";
 
 export default function SaleProduct() {
   const router = useRouter();
-
-  const [isLoading, setIsLoading] = useState(false);
   const [sales, setSales] = useState(null);
   const { id } = router.query;
   const { enqueueSnackbar } = useSnackbar();
@@ -24,41 +20,22 @@ export default function SaleProduct() {
     }
   }, [id]);
 
-  const handleDownloadPDF = () => {
-    setIsLoading(true);
-
-    const content = document.getElementById("pdf-content");
-
-    if (content) {
-      const pdf = new jsPDF();
-
-      html2canvas(content).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        pdf.addImage(imgData, "PNG", 0, 0, 210, 210);
-        pdf.save("sales_report.pdf");
-        setIsLoading(false);
-      });
-    } else {
-      enqueueSnackbar("PDF content not found.", { variant: "error" });
-      setIsLoading(false);
-    }
-  };
-
   return (
     <Layout>
-     
-      <Invoice sales={sales} />
+      <div id="pdf-content">
+        <Invoice sales={sales} />
+      </div>
 
-      <button
-        onClick={handleDownloadPDF}
-        className="bg-green-400 rounded-md p-2 m-4 text-white w-1/5"
-        disabled={isLoading}
-      >
-        {isLoading ? "Generating PDF..." : "Download PDF"}
-      </button>
-      {isLoading && (
-        <div className="loader">Loading...</div>
-      )}
+      {/* React-to-PDF Download Link */}
+      <PDFDownloadLink document={<Invoice sales={sales} />} fileName="sales_report.pdf">
+        {({ loading }) => (
+          <button className="bg-green-400 rounded-md p-2 m-4 text-white w-1/5" disabled={loading}>
+            {loading ? "Generating PDF..." : "Download PDF"}
+          </button>
+        )}
+      </PDFDownloadLink>
+
+      {/* Additional content */}
     </Layout>
   );
 }

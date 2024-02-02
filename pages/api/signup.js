@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'; // Import the jsonwebtoken library
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     await mongooseConnect();
-    let role="admin"
+    let role="saler"
     const { name, email, password,passhint } = req.body;
 
     try {
