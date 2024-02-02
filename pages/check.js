@@ -27,7 +27,7 @@ export default function Check() {
           console.error('Axios request error:', error);
         });
     } else {
-      setProducts([]);
+      setProducts([]); 
     }
   }, [cartProducts]);
 
@@ -49,7 +49,10 @@ export default function Check() {
       [productId]: parseFloat(value) || 0,
     }));
   }
-
+  const handleBlur = (productId) => {
+    // Your logic for handling blur
+    console.log(`Blur event for product ID: ${productId}`);
+  }
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;

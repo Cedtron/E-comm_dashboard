@@ -112,7 +112,7 @@ export default function Report() {
     {
       name: 'View',
       cell: (row) => (
-        <Link href={`/sales/${row._id}`} className="shadow m-2 bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+        <Link href={`/sales/${row._id}`} className=" my-5 shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
           View
         </Link>
       ),

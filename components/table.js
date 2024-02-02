@@ -7,7 +7,7 @@ import {
   FaCaretDown,
   FaCaretUp,
 } from 'react-icons/fa';
-
+import {RiseLoader} from "react-spinners";
 export default function Table({ columns, data, title, showSearch, itemsPerPage = 5 }) {
   const [filteredData, setFilteredData] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
@@ -102,7 +102,7 @@ export default function Table({ columns, data, title, showSearch, itemsPerPage =
       return (
         <tr>
           <td colSpan={columns.length} className="text-center py-4">
-            Loading...
+         <div className=" place-content-center "></div> <RiseLoader color="#3182CE" size={5}/>
           </td>
         </tr>
       );
@@ -116,7 +116,7 @@ export default function Table({ columns, data, title, showSearch, itemsPerPage =
       <tr key={rowIndex}>
         {columns.map((column, colIndex) => (
           <td
-            className={`p-2 whitespace-wrap ${column.cellClassName || ''} ${
+            className={`p-2 whitespace-wrap my-2 ${column.cellClassName || ''} ${
               column.conditionalClasses ? column.conditionalClasses(row) : ''
             }`}
             key={colIndex}

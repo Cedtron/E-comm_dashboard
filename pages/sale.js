@@ -61,18 +61,31 @@ export default function Products() {
     },
     {
       name: "Actions",
-      cell: (row) => (
-        <button
-          onClick={() => addToCart(row._id)}
-          disabled={new Date(row.expdate) >= new Date() || addedProductId === row._id}
-          className={`w-full cursor-pointer bg-black hover:bg-gray-900 text-white py-2 px-4 rounded inline-flex items-center ${
-            cartProducts.includes(row._id) ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          <FaCartPlus className="w-4 h-4 mr-2" />{" "}
-          {cartProducts.includes(row._id) ? "Added to cart" : "Add to cart"}
-        </button>
-      ),
+      cell: (row) => {
+        const isExpired = new Date(row.expdate) < new Date();
+        const isOutOfStock = row.stock === 0;
+    
+        return (
+          <>
+            {isExpired || isOutOfStock ? (
+              <span className={`text-red-500 ${isExpired ? '' : ''}`}>
+                {isExpired ? 'Expired' : 'Out of Stock'}
+              </span>
+            ) : (
+              <button
+                onClick={() => addToCart(row._id)}
+                disabled={addedProductId === row._id}
+                className={`w-full cursor-pointer bg-black hover:bg-gray-900 text-white py-2 px-4 rounded inline-flex items-center ${
+                  cartProducts.includes(row._id) ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                <FaCartPlus className="w-4 h-4 mr-2" />{" "}
+                {cartProducts.includes(row._id) ? "Added to cart" : "Add to cart"}
+              </button>
+            )}
+          </>
+        );
+      },
     },
   ];
   

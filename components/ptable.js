@@ -82,7 +82,13 @@ const SalesTable = ({ salesData }) => {
       name: 'Date',
       selector: 'esawa',
       sortable: true,
-      format: (row) => new Date(row.esawa).toLocaleDateString(),
+      format: (row) => {
+        const date = new Date(row.esawa);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
     },
     {
       name: 'Profit',
