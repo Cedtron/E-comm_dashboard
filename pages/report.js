@@ -112,9 +112,11 @@ export default function Report() {
     {
       name: 'View',
       cell: (row) => (
-        <Link href={`/sales/${row._id}`} className=" my-5 shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+        <div className="my-2">
+        <Link href={`/sales/${row._id}`} className=" shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
           View
         </Link>
+        </div>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
@@ -134,18 +136,11 @@ export default function Report() {
     <Layout>
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
         <div className="p-4">
-          <input
-            type="text"
-            placeholder="Search by saler"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="block w-2/3 rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        
-          />
+
             <CSVLink
             data={filteredSales}
             filename="sales_report.csv"
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:border-blue-300"
+            className="bg-green-500 text-white p-2 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:border-green-300"
           >
             Export CSV
           </CSVLink>
@@ -154,10 +149,10 @@ export default function Report() {
 <Table columns={columns} data={filteredSales} title="Sales Report" showSearch={true} itemsPerPage={10} />
   
 
-          <div className="flex justify-between">
-            <div>Total price of all sales: ${totalSalesPrice.toFixed(2)}</div>
-            <div>Total price of sales this week: ${totalWeekSalesPrice.toFixed(2)}</div>
-            <div>Total price of sales this month: ${totalMonthSalesPrice.toFixed(2)}</div>
+          <div className="flex justify-between font-semibold  bg-blue-500 text-gray-200 py-4 px-2">
+            <div>Total price of all sales: Ugx {totalSalesPrice.toFixed(0)}</div>
+            <div>Total price of sales this week: Ugx {totalWeekSalesPrice.toFixed(0)}</div>
+            <div>Total price of sales this month: Ugx {totalMonthSalesPrice.toFixed(0)}</div>
           </div>
         </div>
       </div>

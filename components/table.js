@@ -102,7 +102,7 @@ export default function Table({ columns, data, title, showSearch, itemsPerPage =
       return (
         <tr>
           <td colSpan={columns.length} className="text-center py-4">
-         <div className=" place-content-center "></div> <RiseLoader color="#3182CE" size={5}/>
+         <div className=" place-content-center "> <RiseLoader color="#3182CE" size={8}/></div>
           </td>
         </tr>
       );
