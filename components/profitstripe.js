@@ -3,14 +3,15 @@ import React from 'react';
 export default function Profitstab(props) {
   const { salesData } = props;
 
-  if (!Array.isArray(salesData) && typeof salesData !== 'object') {
-    // Handle the case where salesData is neither an array nor an object
+  if (!salesData || !Array.isArray(salesData.line_items) || salesData.line_items.length === 0) {
+    // Handle the case where salesData or line_items is not present, not an array, or is an empty array
     return (
       <div>
-        <p>Error: salesData is not an array or a valid JSON object.</p>
+        <p>Error: salesData or line_items is missing, not an array, or is empty.</p>
       </div>
     );
   }
+
 
   // Extract line items from sales data
   const lineItems = salesData.line_items || [];
@@ -61,7 +62,7 @@ export default function Profitstab(props) {
           </div>
         </div>
 
-        <div className="shadow bg-info border-l-8 rounded-md hover-bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+        <div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
               UGx {weeklyLoss.toFixed(2)}
@@ -72,7 +73,7 @@ export default function Profitstab(props) {
           </div>
         </div>
 
-        <div className="shadow bg-warning border-l-8 rounded-md hover-bg-warning-dark border-warning-dark mb-2 p-2 md:w-1/4 mx-2">
+<div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
               UGx {monthlyProfit.toFixed(2)}
@@ -83,7 +84,7 @@ export default function Profitstab(props) {
           </div>
         </div>
 
-        <div className="shadow bg-success border-l-8 rounded-md hover-bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
+<div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
               UGx {monthlyLoss.toFixed(2)}
