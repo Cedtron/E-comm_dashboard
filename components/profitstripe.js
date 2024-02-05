@@ -3,18 +3,18 @@ import React from 'react';
 export default function Profitstab(props) {
   const { salesData } = props;
 
-  if (!salesData || !Array.isArray(salesData.line_items) || salesData.line_items.length === 0) {
-    // Handle the case where salesData or line_items is not present, not an array, or is an empty array
+  console.log(salesData)
+  if (!Array.isArray(salesData) || salesData.length === 0) {
+    // Handle the case where salesData is not an array or is an empty array
     return (
       <div>
-        <p>Error: salesData or line_items is missing, not an array, or is empty.</p>
+        <p>Error: salesData is not an array or is empty.</p>
       </div>
     );
   }
 
 
-  // Extract line items from sales data
-  const lineItems = salesData.line_items || [];
+  const lineItems = salesData.map(item => item.line_items || []).flat();
 
   // Calculate weekly and monthly profits and losses
   const currentDate = new Date();
@@ -73,7 +73,7 @@ export default function Profitstab(props) {
           </div>
         </div>
 
-<div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
+        <div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
               UGx {monthlyProfit.toFixed(2)}
@@ -84,7 +84,7 @@ export default function Profitstab(props) {
           </div>
         </div>
 
-<div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
+        <div className="shadow-lg bg-red-vibrant border-l-8 rounded-md hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2">
           <div className="p-4 flex flex-col">
             <a href="#" className="no-underline text-white text-2xl">
               UGx {monthlyLoss.toFixed(2)}

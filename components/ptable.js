@@ -93,7 +93,7 @@ const SalesTable = ({ salesData }) => {
       selector: 'Profit',
       sortable: true,
       cell: (row) => (
-        <span style={{ color: row.Profit.color }}>{`$${parseFloat(row.Profit.value).toFixed(2)}`}</span>
+        <span style={{ color: row.Profit.color }}>{`Ugx ${parseFloat(row.Profit.value).toFixed(0)}`}</span>
       ),
     },
     {

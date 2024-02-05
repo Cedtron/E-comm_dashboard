@@ -21,10 +21,11 @@ export default function Expend({ swal }) {
   const [editedCategory, setEditedCategory] = useState(null);
   const [expend, setExpend] = useState([]);
   const [catexpend, setCatexpend] = useState([]);
-  const { handleSubmit, control, reset, setValue, formState: { errors, isSubmitting } } = useForm({
+  const { handleSubmit, control, reset, setValue, formState } = useForm({
     resolver: yupResolver(schema),
   });
-
+  
+  const { errors, isSubmitting } = formState;
   useEffect(() => {
     fetchExpend();
     fetchCatexpend();
