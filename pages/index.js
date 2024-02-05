@@ -54,6 +54,11 @@ useEffect(() => {
       name: 'Name of the saler',
       selector: 'saler',
       sortable: true,
+      cell: (row) => (
+        <div className="text-center">
+          {row.saler}
+        </div>
+      ),
     },
     {
       name: 'Total price',
@@ -65,11 +70,10 @@ useEffect(() => {
       selector: "esawa",
       sortable: true,
       cell: (row) => {
-        const date = new Date(row.date);
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
+       
+        const date = new Date(row.esawa);
+        const formattedDate = date.toLocaleDateString(); 
+        return formattedDate;
       },
     },
   ];
