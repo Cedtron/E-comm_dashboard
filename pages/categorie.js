@@ -203,14 +203,6 @@ export default function Categories({swal}) {
           </form>
 
           <div>
-        <DataTable
-          title="Categories"
-          columns={columns}
-          data={categories}
-          pagination
-          highlightOnHover
-          striped
-        />
 
 <Table columns={columns}  data={categories} title="Categories" showSearch={true} itemsPerPage={10} />
   

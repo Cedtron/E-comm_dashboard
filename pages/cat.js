@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import Table from "@/components/table";
 import swal from 'sweetalert2';
 
 
@@ -50,7 +50,7 @@ export default function Cat(props) {
   return (
     
       <div>
-        
+      <Table columns={columns}  data={categories} title="Categories" showSearch={true} itemsPerPage={10} />
       </div>
    
   );
