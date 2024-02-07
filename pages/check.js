@@ -91,7 +91,7 @@ export default function Check() {
       }
     }
   
-    const data = { items, price, saler, esawa, dprice: editedItemPrices }; // Include editedPrices in the data object
+    const data = { items, price, saler, esawa, dprice: editedItemPrices }; 
   
 
     await axios
@@ -240,18 +240,18 @@ export default function Check() {
                             <input
   type="number"
   min="0"
-  placeholder={`${product.price * cartProducts.filter((id) => id === product._id).length} UGX)`}
+  placeholder={`only edit the orignal price`}
   value={editedPrices[product._id] || ''}
   onChange={(e) => handlePriceChange(product._id, e.target.value)}
   onBlur={() => handleBlur(product._id)}
-  className="block rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+  class="block rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 custom-placeholder focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 />
-<button
+{/* <button
   onClick={() => saveEditedPrice(product._id)}
   className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
 >
   Save
-</button>
+</button> */}
 
                         </td>
                             <td className="whitespace-nowrap px-6 py-4">

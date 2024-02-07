@@ -2,51 +2,43 @@ import React from 'react';
 
 export default function Profitstab(props) {
   const { salesData } = props;
+console.log(salesData)
+  // Calculate weekly profit and loss
+  const weeklyProfit = salesData.reduce((total, sale) => {
+    if (sale.weekly) {
+      return total + sale.profit;
+    }
+    return total;
+  }, 0);
 
-  console.log(salesData)
-  if (!Array.isArray(salesData) || salesData.length === 0) {
-    // Handle the case where salesData is not an array or is an empty array
-    return (
-      <div>
-        <p>Error: salesData is not an array or is empty.</p>
-      </div>
-    );
-  }
+  const weeklyLoss = salesData.reduce((total, sale) => {
+    if (sale.weekly) {
+      return total + sale.loss;
+    }
+    return total;
+  }, 0);
 
+  // Calculate monthly profit and loss
+  const monthlyProfit = salesData.reduce((total, sale) => {
+    if (sale.monthly) {
+      return total + sale.profit;
+    }
+    return total;
+  }, 0);
 
-  const lineItems = salesData.map(item => item.line_items || []).flat();
+  const monthlyLoss = salesData.reduce((total, sale) => {
+    if (sale.monthly) {
+      return total + sale.loss;
+    }
+    return total;
+  }, 0);
 
-  // Calculate weekly and monthly profits and losses
-  const currentDate = new Date();
-  const oneWeekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const oneMonthAgo = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+  // Calculate profit percentages
+  const weeklyProfitPercentage = ((weeklyProfit / (weeklyProfit + weeklyLoss)) * 100).toFixed(2);
+  const weeklyLossPercentage = ((weeklyLoss / (weeklyProfit + weeklyLoss)) * 100).toFixed(2);
 
-  const weeklyData = lineItems.filter(item => new Date(item.esawa) > oneWeekAgo);
-  const monthlyData = lineItems.filter(item => new Date(item.esawa) > oneMonthAgo);
-
-  const calculateTotalPrice = (data) => {
-    return data.reduce((total, item) => total + item.price, 0);
-  };
-
-  const calculateTotalCostPrice = (data) => {
-    return data.reduce((total, item) => total + item.price_data.product_data.costprice, 0);
-  };
-
-  const weeklyProfit = calculateTotalPrice(weeklyData) - calculateTotalCostPrice(weeklyData);
-  const monthlyProfit = calculateTotalPrice(monthlyData) - calculateTotalCostPrice(monthlyData);
-
-  const weeklyLoss = calculateTotalCostPrice(weeklyData) - calculateTotalPrice(weeklyData);
-  const monthlyLoss = calculateTotalCostPrice(monthlyData) - calculateTotalPrice(monthlyData);
-
-  const calculatePercentage = (profitOrLoss, totalRevenue) => {
-    return totalRevenue !== 0 ? ((profitOrLoss / totalRevenue) * 100).toFixed(2) : 0;
-  };
-
-  const weeklyProfitPercentage = calculatePercentage(weeklyProfit, calculateTotalPrice(weeklyData));
-  const monthlyProfitPercentage = calculatePercentage(monthlyProfit, calculateTotalPrice(monthlyData));
-  const weeklyLossPercentage = calculatePercentage(weeklyLoss, calculateTotalCostPrice(weeklyData));
-  const monthlyLossPercentage = calculatePercentage(monthlyLoss, calculateTotalCostPrice(monthlyData));
-
+  const monthlyProfitPercentage = ((monthlyProfit / (monthlyProfit + monthlyLoss)) * 100).toFixed(2);
+  const monthlyLossPercentage = ((monthlyLoss / (monthlyProfit + monthlyLoss)) * 100).toFixed(2);
 
   return (
     <div>

@@ -29,7 +29,6 @@ export default async function handler(req, res) {
       // Use the edited price if available, otherwise use the original price
       const editedPrice = dprice.find(ep => ep.productId === productId);
       const unit_amount = (editedPrice ? editedPrice.price : productInfo.price) * quantity;
-
       line_items.push({
         quantity,
         price_data: {

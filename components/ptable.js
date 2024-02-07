@@ -44,32 +44,40 @@ const SalesTable = ({ salesData }) => {
 
   const generateTableData = (sales) => {
     return sales.map((item) => {
-      const quantity = item.line_items[0].quantity;
-      const unitAmount = item.line_items[0].price_data.unit_amount;
-      const costPrice = item.line_items[0].price_data.product_data.costprice;
-  
-      const calculatedPrice = quantity * unitAmount;
-      const calculatedProfit = calculatedPrice - costPrice;
-  
-      // Check if calculated profit is greater or less than the original profit
-      const profitColor = calculatedProfit > calculateProfit([item]) ? 'green' : 'red';
-  
+      // Extracting data from line items
+      const lineItems = item.line_items;
+      let totalCostPrice = 0;
+      let calculatedPrice = 0;
+
+      // Calculating total cost price and calculated price
+      lineItems.forEach((lineItem) => {
+        totalCostPrice += lineItem.quantity * lineItem.price_data.product_data.costprice;
+        calculatedPrice += lineItem.quantity * lineItem.price_data.unit_amount;
+      });
+
+      // Calculating profit
+      const profit = calculatedPrice - totalCostPrice;
+
+      // Calculating profit percentage
+      const totalRevenue = item.price;
+      const profitPercentage = ((profit / totalRevenue) * 100).toFixed(2);
+
+      // Determine profit color
+      const profitColor = profit >= 0 ? 'green' : 'red';
+
       return {
         ...item,
         Profit: {
-          value: calculateProfit([item]),
+          value: profit,
           color: profitColor,
         },
-        Loss: calculateLoss([item]),
-        Percentage: calculatePercentage(calculateProfit([item]), calculateTotalPrice([item])),
+        Percentage: profitPercentage + '%',
       };
     });
   };
 
   const filteredSales = filterSalesByMonth(salesData, selectedMonth);
   const tableData = generateTableData(filteredSales);
-
-
 
   const columns = [
     {
@@ -83,7 +91,6 @@ const SalesTable = ({ salesData }) => {
       selector: 'esawa',
       sortable: true,
       cell: (row) => {
-      
         const date = new Date(row.esawa);
         return date.toLocaleString();
       },
@@ -102,51 +109,43 @@ const SalesTable = ({ salesData }) => {
       sortable: true,
     },
   ];
- 
-
-  const handleExport = () => {
-    setCSVReady(true);
-  };
 
   return (
     <div>
-
       <div className='flex gap-4  place-content-center'>
-      <div className="basis-1/4 m-2">
-      <label className="text-center">
-        Select Month:</label>
-        <select value={selectedMonth} onChange={handleMonthChange} 
-        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option value="all">All Months</option>
-          <option value="0">January</option>
-          <option value="1">February</option>
-          <option value="2">March</option>
-          <option value="3">April</option>
-          <option value="4">May</option>
-          <option value="5">June</option>
-          <option value="6">July</option>
-          <option value="7">August</option>
-          <option value="8">September</option>
-          <option value="9">October</option>
-          <option value="10">November</option>
-          <option value="11">December</option>
-        </select>
-      
-</div>
-      <CSVLink
-            data={tableData}
-            filename="sales_report.csv"
-            className="bg-green-500 text-white p-1 m-1 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:border-blue-300"
+        <div className="basis-1/4 m-2">
+          <label className="text-center">
+            Select Month:
+          </label>
+          <select 
+            value={selectedMonth} 
+            onChange={handleMonthChange} 
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            Export CSV
-          </CSVLink>
-       
-          </div>
-   
-
-<Table columns={columns}  data={tableData}  title="Profits Report" showSearch={true} itemsPerPage={5} />
-  
-
+            <option value="all">All Months</option>
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+          </select>
+        </div>
+        <CSVLink
+          data={tableData}
+          filename="sales_report.csv"
+          className="bg-green-500 text-white p-1 m-1 rounded-md hover:bg-green-400 focus:outline-none focus:ring focus:border-blue-300"
+        >
+          Export CSV
+        </CSVLink>
+      </div>
+      <Table columns={columns} data={tableData} title="Profits Report" showSearch={true} itemsPerPage={5} />
     </div>
   );
 };

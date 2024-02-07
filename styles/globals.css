@@ -32,7 +32,9 @@
 .scrollbar::-webkit-scrollbar-thumb {
   background-color: transparent; 
 }
-
+.custom-placeholder::placeholder {
+  color: #a5a5a5;
+}
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
