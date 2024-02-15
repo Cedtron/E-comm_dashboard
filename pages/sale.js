@@ -22,10 +22,7 @@ export default function Products() {
   }, []); 
 
   const columns = [
-    {
-      name: 'Product image',
-      cell: (row) => <img src={row.image} alt="" className="w-2/4 rounded-lg m-2" />,
-    },
+
     {
       name: "Product name",
       selector: "title",
