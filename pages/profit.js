@@ -5,6 +5,7 @@ import axios from "axios";
 import Profitstab from "@/components/profitstripe";
 import SalesTable from "@/components/ptable";
 import PChart from "@/components/pchart";
+import Construct from "@/components/construction";
 
 export default function Home() {
 
@@ -50,6 +51,7 @@ const handleMonthChange = (e) => {
 
   return (
     <Layout>
+      <Construct />
       <Profitstab salesData={sales}/>
       <div className="flex flex-row">
         <div className="w-full m-2 p-2">
