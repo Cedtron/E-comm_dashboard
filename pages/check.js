@@ -163,6 +163,8 @@ export default function Check() {
           {products?.length > 0 && (
 
     <div className=" max-w-6xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+     
+     <div className=" overflow-y-auto h-svh">
       <div className="rounded-lg md:w-2/3">
 
       <table className="table-auto rounded-md">
@@ -262,10 +264,10 @@ export default function Check() {
                        
                       </tbody>
                     </table>
-        
+                    </div>
       </div>
       
-      <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+      <div className="mt-6 h-full rounded-lg border bg-white p-4 shadow-md md:mt-0 md:w-1/3">
        
         <hr className="my-4" />
         <h4 className="text-lg font-bold">Total price of all products</h4>

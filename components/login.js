@@ -76,7 +76,7 @@ export default function Login() {
                 </a>
                 
               </form>
-              <a className="inline-block right-0  justify-center  align-baseline font-bold text-sm text-500 text-gray-700 hover:text-blue-600" href="/support">
+              <a className="inline-block right-0  text-center  align-baseline font-bold text-sm text-500 text-gray-700 hover:text-blue-600" href="/support">
                   Support
                 </a>
               {/* <button onClick={() => signIn('google')} className="bg-black p-2 px-4 rounded-lg text-white">Login with Google</button> */}

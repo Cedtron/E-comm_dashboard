@@ -77,13 +77,13 @@ export default function Layout({children}) {
                 </div>
             </div>
         </header> 
-    <div className="min-h-screen flex flex-nowrap">
+    <div className="h-screen flex flex-nowrap">
 
      <Nav />
 
         <div className="flex flex-1">
 
-        <main className="bg-gray-100 flex-1 p-3 overflow-hidden">
+        <main className="bg-gray-100 flex-1 p-3 overflow-y-auto h-screen">
         {/* <div className="flex flex-col overflow-y-auto h-lvh "> */}
         <div className="flex flex-col">
         {children}

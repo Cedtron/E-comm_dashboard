@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import axios from "axios";
 import Dataform from "@/components/dataform";
-
+import Construct from "@/components/construction";
 export default function Data() {
   const [selectedSchema, setSelectedSchema] = useState(''); 
   const [files, setFiles] = useState([]); 
@@ -40,6 +40,7 @@ export default function Data() {
 
   return (
     <Layout>
+      <Construct />
       <div className="bg-white text-black mx-auto rounded overflow-hidden shadow-lg w-full">
       <div class="grid grid-cols-2 gap-2">
 
