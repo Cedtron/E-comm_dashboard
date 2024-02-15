@@ -5,17 +5,17 @@ export default function Construct() {
 
   
     return (
-        <div className="h-screen font-sans w-fit z-20 fixed bg-cover const">
-        <div className="container mx-auto h-full flex flex-1 justify-center items-center">
-          <div className="w-full max-w-lg mx-auto">
+        <div className="h-lvh font-sans absolute w-c z-10  bg-cover const">
+        <div className="container mx-auto flex flex-1 justify-center items-center">
+          <div className="w-full max-w-lg center mt-6">
             
                   <Image
                     src={Dev}
-                    width={300}
-                    height={300}
+                    width={400}
+                    height={400}
                     alt="development"
                   />
-               <div className="text-2xl text-center">System Under Development</div>
+               <div className="text-2xl ">System Under Development</div>
           </div>
         </div>
       </div>
