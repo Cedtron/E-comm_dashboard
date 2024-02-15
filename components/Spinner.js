@@ -20,7 +20,7 @@ export default function Spinner() {
   src={Logo}
     width={200}
     height={200}
-    alt="Picture of the author"
+    alt="logo"
   />
     <h3 className="loader-text text-white antialiased font-bold">Baala</h3>
      <div className="my-8 loader"></div>

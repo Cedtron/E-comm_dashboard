@@ -21,7 +21,7 @@ export default function Support() {
                   src={Service}
                   width={300}
                   height={300}
-                  alt="Picture of the author"
+                  alt="service"
                 />
               </div>
               <div className="text-center">
@@ -36,6 +36,11 @@ export default function Support() {
                   <RiExternalLinkLine className="inline-block text-3xl text-blue-500 mr-2" />
                   <a href="https://cedo-plum.vercel.app" target="_blank" rel="noopener noreferrer" className="text-lg">Cedo developer</a>
                 </div>
+
+                <a className="inline-block right-0 align-baseline font-bold text-sm text-500 text-gray-700 hover:text-blue-600" href="/">
+                  Home
+                </a>
+
               </div>
             </div>
           </div>
