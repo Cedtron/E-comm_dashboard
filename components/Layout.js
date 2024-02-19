@@ -58,9 +58,9 @@ export default function Layout({children}) {
                        <Link
           type="button"
           href={'/check'}
-          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
+          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
-        <div className="bg-gray-100 flex justify-center items-center">
+        <div className="flex justify-center items-center">
     <div className="relative">
   <div className="t-0 absolute left-3">
     <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-1">{cartProducts.length}</p>
