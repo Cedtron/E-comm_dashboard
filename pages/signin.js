@@ -33,8 +33,8 @@ const router = useRouter();
       });
   
       if (response.status === 201) {
+               enqueueSnackbar('User registered successfully👍', { variant: 'success' });
         router.push('/');
-        enqueueSnackbar('User registered successfully👍', { variant: 'success' });
       } else {
         // Handle registration failure
         enqueueSnackbar('Registration failed⚠️', { variant: 'error' });
