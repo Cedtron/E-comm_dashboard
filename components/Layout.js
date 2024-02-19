@@ -58,15 +58,21 @@ export default function Layout({children}) {
                        <Link
           type="button"
           href={'/check'}
-          className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
+          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
         >
-         <FaCartShopping />
-          <span
-            className="ml-2 inline-block whitespace-nowrap rounded-[0.27rem] bg-danger-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-danger-700"
-          >
-            {cartProducts.length}
-          </span>
+        <div className="h-screen bg-gray-100 flex justify-center items-center">
+    <div className="relative py-2">
+  <div className="t-0 absolute left-3">
+    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">{cartProducts.length}</p>
+  </div>
+<FaCartShopping />
+</div>
+</div>
         </Link>
+
+
+
+             
 
                 <div className="flex bg-gray-200 gap-1 text-black rounded-lg overflow-hidden">
   {session?.user?.image ? (
