@@ -1,4 +1,4 @@
-import { useContext,React } from "react"
+import React, { useContext } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Nav from "@/components/Nav";
 import { HiMenu } from 'react-icons/hi';
