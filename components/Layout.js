@@ -61,9 +61,9 @@ export default function Layout({children}) {
           className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
         <div className="flex justify-center items-center">
-    <div className="relative">
+    <div className="relative py-2">
   <div className="t-0 absolute left-3">
-    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-1">{cartProducts.length}</p>
+    <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3">{cartProducts.length}</p>
   </div>
 <FaCartShopping />
 </div>
