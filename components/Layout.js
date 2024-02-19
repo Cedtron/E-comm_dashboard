@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Nav from "@/components/Nav";
+import Link from 'next/link';
 import { HiMenu } from 'react-icons/hi';
 import Footer from "@/components/footer";
 import {useState} from "react";
