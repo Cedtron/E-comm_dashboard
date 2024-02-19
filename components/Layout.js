@@ -8,9 +8,12 @@ import Login from './login';
 import Image from 'next/image'
 import Logo from '@/public/im/logo.png'
 import Spinner from './Spinner';
+import { FaCartShopping } from "react-icons/fa6";
+import { CartContext } from "@/components/context";
 
 export default function Layout({children}) {
 
+ const { cartProducts, addProduct } = useContext(CartContext);
  const { data: session } = useSession();
     function sidebarToggle() {
       const sidebar = document.getElementById('sidebar');
@@ -51,7 +54,18 @@ export default function Layout({children}) {
   />
                 </div>
                 <div className="p-1 flex flex-row items-center">
-               
+                       <Link
+          type="button"
+          href={'/check'}
+          className="shadow bg-blue-600 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded m-4"
+        >
+         <FaCartShopping />
+          <span
+            className="ml-2 inline-block whitespace-nowrap rounded-[0.27rem] bg-danger-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-danger-700"
+          >
+            {cartProducts.length}
+          </span>
+        </Link>
 
                 <div className="flex bg-gray-200 gap-1 text-black rounded-lg overflow-hidden">
   {session?.user?.image ? (
