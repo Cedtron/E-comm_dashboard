@@ -58,7 +58,7 @@ export default function Layout({children}) {
                        <Link
           type="button"
           href={'/check'}
-          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 mr-2.5 rounded"
+          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 mr-4 rounded"
         >
         <div className="flex justify-center items-center">
     <div className="relative py-2">
@@ -74,7 +74,7 @@ export default function Layout({children}) {
 
              
 
-                <div className="flex bg-gray-200 gap-1 text-black rounded-lg overflow-hidden">
+                <div className="flex bg-gray-200 gap-1 text-black rounded-lg overflow-hidden ml-2">
   {session?.user?.image ? (
     <img src={session?.user?.image} alt="" className="w-6 h-6" />
   ) : (
