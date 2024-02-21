@@ -58,7 +58,7 @@ export default function Layout({children}) {
                        <Link
           type="button"
           href={'/check'}
-          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          className="shadow  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 mr-2.5 rounded"
         >
         <div className="flex justify-center items-center">
     <div className="relative py-2">

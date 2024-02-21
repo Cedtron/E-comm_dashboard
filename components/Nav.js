@@ -10,6 +10,7 @@ import { TbReportMoney } from "react-icons/tb";
 import { BsBoxes } from "react-icons/bs";
 import { CiShoppingTag } from "react-icons/ci";
 import { AiOutlineStock } from "react-icons/ai";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 export default function Nav() {
   const inactiveLink = 'font-sans font-hairline hover:font-normal text-md text-nav-item no-underline';
@@ -61,6 +62,16 @@ const isAdmin = session?.user?.roles === "admin";
             </div>
           </Link>
         </li>
+        <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
+        <Link href={'/report'} className={pathname.includes('/report') ? activeLink : inactiveLink}>
+        <div className="flex items-center"> 
+    <span className="mx-2">
+    <HiOutlineDocumentReport />
+          </span>
+          Report
+          </div>
+        </Link>
+      </li>
         {isAdmin && (
           <>
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
@@ -103,7 +114,8 @@ const isAdmin = session?.user?.roles === "admin";
                 Profit
                 </div>
               </Link>
-            </li>
+            </li> 
+            
             <li className="w-full pl-4 h-full py-3 px-2 border-b border-light-border">
           <Link href={'/settings'} className={pathname.includes('/settings') ? activeLink : inactiveLink}>
           <div className="flex items-center"> 
