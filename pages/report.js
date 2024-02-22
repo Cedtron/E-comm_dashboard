@@ -82,7 +82,7 @@ export default function Report() {
       name: 'Items sold',
       selector: 'line_items',
       sortable: false,
-      cell: (row) => (
+      cell: (row) => ( 
         <div>
           {row.line_items.map((l, index) => (
             <div key={index}>
@@ -107,7 +107,12 @@ export default function Report() {
       name: 'Date',
       selector: 'createdAt',
       sortable: true,
-      format: (row) => new Date(row.createdAt).toLocaleString(),
+      cell: (row) => {
+       
+        const date = new Date(row.esawa);
+        const formattedDate = date.toLocaleDateString(); 
+        return formattedDate;
+      },
     },
     {
       name: 'View',

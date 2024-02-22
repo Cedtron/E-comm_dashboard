@@ -45,10 +45,15 @@ useEffect(() => {
   const columns = [
     {
       name: 'Items sold',
-      selector: (row) => {
-        const itemNames = row.line_items.map((item) => item.price_data.product_data.name);
-        return itemNames.join(', ');
-      },
+      cell: (row) => ( 
+        <div>
+          {row.line_items.map((l, index) => (
+            <div key={index}>
+              {l.price_data?.product_data.name} x{l.quantity}
+            </div>
+          ))}
+        </div>
+      ),
     },
     {
       name: 'Name of the saler',
