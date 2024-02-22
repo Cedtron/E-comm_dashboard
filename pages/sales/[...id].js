@@ -4,7 +4,6 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import Layout from "@/components/Layout";
 import Invoice from "@/components/Invoice";
-import { jsPDF } from "jspdf";
 
 export default function SaleProduct() {
   const router = useRouter();
@@ -20,27 +19,26 @@ export default function SaleProduct() {
     }
   }, [id]);
 
-  const handleDownloadPDF = () => {
+  const handlePrint = () => {
     try {
-      // Create a new jsPDF instance
-      const pdf = new jsPDF();
-
-      // Get the content of the PDF from the Invoice component
-      const content = document.getElementById("pdf-content");
-
-      if (content) {
-        pdf.html(content, {
-          callback: () => {
-            // Save the PDF with a specific filename
-            pdf.save("sales_report.pdf");
-          }
+      if (!sales) {
+        enqueueSnackbar("Sales data not found.", { variant: "error" });
+        return;
+      }
+  
+      // Check if window is defined (client-side)
+      if (typeof window !== 'undefined') {
+        // Import print-js only on the client-side
+        import('print-js').then((printJS) => {
+          printJS.default({
+            printable: 'pdf-content',
+            type: 'html'
+          });
         });
-      } else {
-        enqueueSnackbar("PDF content not found.", { variant: "error" });
       }
     } catch (error) {
-      console.error("Error generating PDF:", error);
-      enqueueSnackbar("Error generating PDF", { variant: "error" });
+      console.error("Error printing:", error);
+      enqueueSnackbar("Error printing", { variant: "error" });
     }
   };
 
@@ -50,12 +48,12 @@ export default function SaleProduct() {
         <Invoice sales={sales} />
       </div>
 
-      {/* Download PDF button */}
+      {/* Print button */}
       <button
-        onClick={handleDownloadPDF}
+        onClick={handlePrint}
         className="bg-green-400 rounded-md p-2 m-4 text-white w-1/5"
       >
-        Download PDF
+        Print
       </button>
     </Layout>
   );
